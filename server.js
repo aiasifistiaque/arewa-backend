@@ -9,6 +9,7 @@ import swaggerJsDoc from 'swagger-jsdoc';
 import swaggerUI from 'swagger-ui-express';
 import authRoute from './routes/authRoute.js';
 import bookRoute from './routes/bookRoute.js';
+import chapterRoute from './routes/chapterRoute.js';
 
 dotenv.config();
 
@@ -53,7 +54,7 @@ app.use(function (req, res, next) {
 //routes
 app.use('/api/auth', authRoute);
 app.use('/api/books', bookRoute);
-// app.use('/api/login', auth);
+app.use('/api/chapters', chapterRoute);
 // app.use('/api/products', productsRoute);
 // app.use('/api/categories', categoryRoute);
 // app.use('/api/order', orderRoute);

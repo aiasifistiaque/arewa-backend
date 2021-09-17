@@ -31,6 +31,11 @@ const bookSchema = new mongoose.Schema(
 				ref: 'Chapter',
 			},
 		],
+		likes: {
+			type: Number,
+			required: true,
+			default: 0,
+		},
 		tags: [],
 		genre: { type: String, required: true, trim: true },
 		language: { type: String, required: true, trim: true },

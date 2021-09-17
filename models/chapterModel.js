@@ -16,7 +16,6 @@ const chapterSchema = new mongoose.Schema(
 		},
 		description: {
 			type: String,
-			required: true,
 			trim: true,
 		},
 		book: {
@@ -24,7 +23,12 @@ const chapterSchema = new mongoose.Schema(
 			required: true,
 			ref: 'Book',
 		},
-		type: { type: String, required: true, default: 'non-paid' },
+		likes: {
+			type: Number,
+			required: true,
+			default: 0,
+		},
+		paid: { type: Boolean, required: true, default: false },
 		price: { type: Number, required: true, defult: 0 },
 	},
 	{
