@@ -1,5 +1,5 @@
 import asyncHandler from 'express-async-handler';
-import User from '../../models/userModel.js';
+import { User } from '../../models/userModel.js';
 import Follow from '../../models/followerModel.js';
 
 const followUser = asyncHandler(async (req, res) => {
@@ -11,13 +11,21 @@ const followUser = asyncHandler(async (req, res) => {
 			following: id,
 		});
 
-		const user = await User.findById(req.user._id);
-		const toFollow = await User.findById(id);
+		const selectFromUser = '_id name username followers followings';
+
+		const user = await User.findById(req.user._id).select(selectFromUser);
+		const toFollow = await User.findById(id).select(selectFromUser);
 
 		const ifFollowerExists = await Follow.findOne({
 			user: req.user._id,
 			following: id,
 		});
+
+		if (req.user._id == id) {
+			return res
+				.status(500)
+				.json({ status: 'error', msg: 'you can not follow yourself' });
+		}
 
 		if (!toFollow || !user) {
 			return res.status(404).json({ status: 'error', msg: 'user not found' });
@@ -25,8 +33,9 @@ const followUser = asyncHandler(async (req, res) => {
 			if (!ifFollowerExists) {
 				const newFollow = await follow.save();
 				if (newFollow) {
-					user.followings = user.following + 1;
-					toFollow.followers = toFollow.followers + 1;
+					toFollow.followers++;
+					user.followings++;
+
 					await user.save();
 					await toFollow.save();
 				}
