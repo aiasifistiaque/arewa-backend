@@ -37,6 +37,15 @@ const userSchema = new mongoose.Schema(
 			trim: true,
 		},
 
+		followers: {
+			type: Number,
+			default: 0,
+		},
+		followings: {
+			type: Number,
+			default: 0,
+		},
+
 		resetCode: {
 			type: String,
 		},
