@@ -11,6 +11,8 @@ import authRoute from './routes/authRoute.js';
 import bookRoute from './routes/bookRoute.js';
 import chapterRoute from './routes/chapterRoute.js';
 import followRoute from './routes/followRoute.js';
+import libraryRoute from './routes/libraryRoute.js';
+import commentsRoute from './routes/commentsRoute.js';
 
 dotenv.config();
 
@@ -57,8 +59,8 @@ app.use('/api/auth', authRoute);
 app.use('/api/books', bookRoute);
 app.use('/api/chapters', chapterRoute);
 app.use('/api/follow', followRoute);
-// app.use('/api/categories', categoryRoute);
-// app.use('/api/order', orderRoute);
+app.use('/api/library', libraryRoute);
+app.use('/api/comments', commentsRoute);
 // app.use('/api/profile', userRoute);
 // app.use('/api/search', searchRoute);
 // app.use('/api/explore', exploreRoute);

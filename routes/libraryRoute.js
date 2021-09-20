@@ -1,31 +1,31 @@
 import express from 'express';
 import { protect } from '../middleware/auth.js';
-import followUser from '../controllers/usersController/followUser.js';
-import getFollowers from '../controllers/usersController/getFollowers.js';
-import unfollowUser from '../controllers/usersController/unfollowUser.js';
+import addToLibrary from '../controllers/libraryController.js/addToLibrary.js';
+import getLibrary from '../controllers/libraryController.js/getLibrary.js';
+import changeChapter from '../controllers/libraryController.js/changeChapter.js';
 
 /**Swagger doc
  * completed
  * version 0.1
- * 19/09/21 16:12
- * total routes: 3
- * root: /api/follow/
+ * 20/09/21 03:40
+ * total routes: 2
+ * root: /api/library/
  */
 
 const router = express.Router();
 
-router.post('/', protect, followUser);
-router.get('/', protect, getFollowers);
-router.delete('/:id', protect, unfollowUser);
+router.post('/', protect, addToLibrary);
+router.get('/', protect, getLibrary);
+router.put('/chapter', protect, changeChapter);
 
 export default router;
 
 /**
  * Route #1
  * @swagger
- * /follow:
+ * /library:
  *   get:
- *     description: Get all followers and followings
+ *     description: Get library of current user
  *     parameters:
  *       - name: token
  *         description: token of the user
@@ -40,18 +40,18 @@ export default router;
  *       500:
  *         description: String - error
  *       200:
- *         description: returns Object {followers:Array, followings:Array, followingsCount:Number, followersCount:Number}
+ *         description: returns Object {books:Array, count:Number}
  */
 
 /**
  * Route #2
  * @swagger
- * /follow:
+ * /library:
  *   post:
- *     description: Follow another user [PROTECT]
+ *     description: Add a book to the library [PROTECT]
  *     parameters:
- *       - name: id
- *         description: id of the user to follow
+ *       - name: book
+ *         description: id of the book to add
  *         in: req body
  *         required: true
  *         type: String
@@ -66,19 +66,24 @@ export default router;
  *       500:
  *         description: returns Object - {status:String, msg:String}
  *       201:
- *         description: returns {status:String, doc:object, user:user, follower:follower} details
+ *         description: returns {status:String, book:object} details
  */
 
 /**
- * Route #3
+ * Route #2
  * @swagger
- * /follow/{id}:
- *   delete:
- *     description: Unfollow an user [PROTECT]
+ * /library/chapter:
+ *   put:
+ *     description: Change current chapter of a book [PROTECT]
  *     parameters:
- *       - name: id
- *         description: id of the user to follow
- *         in: req params
+ *       - name: book
+ *         description: id of the book
+ *         in: req body
+ *         required: true
+ *         type: String
+ *       - name: chapter
+ *         description: id of the chapter
+ *         in: req body
  *         required: true
  *         type: String
  *       - name: token
@@ -91,6 +96,6 @@ export default router;
  *         description: returns Object - {status:String, msg:String}
  *       500:
  *         description: returns Object - {status:String, msg:String}
- *       200:
- *         description: returns {status:String, deletedEntry:object, user:user, follower:follower} details
+ *       201:
+ *         description: returns {status:String, book:object} details
  */
