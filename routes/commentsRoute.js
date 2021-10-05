@@ -7,7 +7,7 @@ import getComments from '../controllers/commentsController.js/getComments.js';
  * completed
  * version 0.1
  * 16/09/21 13:29
- * total routes: 0
+ * total routes: 2
  * root: /api/books/
  */
 
@@ -18,6 +18,24 @@ router.post('/', protect, addNewComment);
 // router.get('/:id', getBookById);
 
 export default router;
+
+/**
+ * add a comment
+ * @swagger
+ * definitions:
+ *   comments:
+ *     required:
+ *       - user
+ *       - book
+ *       - comment
+ *     properties:
+ *       comment:
+ *         type: string
+ *       book:
+ *         type: string
+ *       chapter:
+ *         type: string
+ */
 
 /**
  * Route #1
@@ -59,22 +77,15 @@ export default router;
  * @swagger
  * /comments:
  *   post:
+ *     summary: Crete a new comment on book or chapter
  *     description: Crete a new comment on book or chapter [PROTECT]
  *     parameters:
- *       - name: comment
+ *       - name: req body
  *         description: Comment that is to be posted
- *         in: req body
+ *         in: body
  *         required: true
- *         type: String
- *       - name: book
- *         description: id of the book
- *         in: req body
- *         required: true
- *         type: _id
- *       - name: chapter
- *         description: id of the chapter
- *         in: req body
- *         type: _id
+ *         schema:
+ *           $ref: "#/definitions/comments"
  *       - name: token
  *         description: auth token
  *         in: header token

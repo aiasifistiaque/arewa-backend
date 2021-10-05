@@ -4,14 +4,15 @@ import asyncHandler from 'express-async-handler';
 
 export function authfunction(req, res, next) {
 	const token = req.header('x-auth-token');
-	if (!token) return res.status(401).send('Access denied. No token present');
+	if (!token)
+		return res.status(401).json({ msg: 'Access denied. No token present' });
 
 	try {
 		const decoded = jwt.verify(token, process.env.JWT_PRIVATE_KEY);
 		req.user = decoded;
 		next();
 	} catch (ex) {
-		res.status(400).send('Invalid token.');
+		res.status(400).json({ msg: 'Invalid token.' });
 	}
 }
 
@@ -30,22 +31,21 @@ export const protect = asyncHandler(async (req, res, next) => {
 
 			next();
 		} catch (error) {
-			console.error(error);
-			res.status(401);
-			throw new Error('Not authorized, token failed');
+			res.status(401).json({ msg: 'Not authorized, token failed' });
 		}
 	}
 
 	if (!token) {
-		return res.status(401).send('Not authorized, no token');
+		return res.status(401).json({ msg: 'Not authorized, no token' });
 	}
 });
 
 export const admin = (req, res, next) => {
-	console.log('it is being executed', req.user);
 	if (req.user && req.user.role === 'admin') {
 		next();
 	} else {
-		res.status(401).json({ msg: 'not authorized' });
+		res
+			.status(401)
+			.json({ msg: 'You are not authorized to access this information' });
 	}
 };

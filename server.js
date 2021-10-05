@@ -13,6 +13,8 @@ import chapterRoute from './routes/chapterRoute.js';
 import followRoute from './routes/followRoute.js';
 import libraryRoute from './routes/libraryRoute.js';
 import commentsRoute from './routes/commentsRoute.js';
+import refillRoute from './routes/refillRoute.js';
+import reportRoute from './routes/reportRoute.js';
 
 dotenv.config();
 
@@ -32,7 +34,7 @@ const swaggerOptions = {
 			version: '0.0.1',
 		},
 	},
-	apis: ['app.js', './routes/*.js'],
+	apis: ['app.js', './routes/*.js', './models/*.js', './swagger/*.js'],
 };
 
 const swaggerDocs = swaggerJsDoc(swaggerOptions);
@@ -61,7 +63,8 @@ app.use('/api/chapters', chapterRoute);
 app.use('/api/follow', followRoute);
 app.use('/api/library', libraryRoute);
 app.use('/api/comments', commentsRoute);
-// app.use('/api/profile', userRoute);
+app.use('/api/refill', refillRoute);
+app.use('/api/report', reportRoute);
 // app.use('/api/search', searchRoute);
 // app.use('/api/explore', exploreRoute);
 // app.use('/api/dashboard', dashRoute);

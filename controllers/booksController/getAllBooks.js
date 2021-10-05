@@ -10,7 +10,11 @@ const getAllBooks = asyncHandler(async (req, res) => {
 	const perPage = parseInt(req.query.perpage) || books.perpage;
 	const page = parseInt(req.query.page) - 1 || 0;
 
-	let genre = req.query.genre ? { genre: req.query.genre } : {};
+	let genre = req.query.search
+		? { title: { $regex: req.query.search, $options: 'i' } }
+		: req.query.genre
+		? { genre: req.query.genre }
+		: {};
 
 	if (option == 'newest') sort = '-createdAt';
 	else if (option == 'oldest') sort = 'createdAt';
@@ -21,6 +25,10 @@ const getAllBooks = asyncHandler(async (req, res) => {
 		const count = await Book.countDocuments(genre);
 		const totalPages = Math.ceil(count / perPage);
 		const books = await Book.find(genre)
+			.populate([
+				{ path: 'chapters', select: 'title' },
+				{ path: 'author', select: 'name' },
+			])
 			.sort(sort)
 			.skip(page * perPage)
 			.limit(perPage);

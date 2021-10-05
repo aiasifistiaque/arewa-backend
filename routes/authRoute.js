@@ -66,19 +66,65 @@ function loginValidate(user) {
 export default router;
 
 /**
+ * Login definition
+ * @swagger
+ * definitions:
+ *   login:
+ *     required:
+ *       - email
+ *       - password
+ *     properties:
+ *       email:
+ *         type: string
+ *         description: email of the user
+ *         example: asifistiaque.ai@gmail.com
+ *       password:
+ *         type: string
+ *         description: password of the user
+ *         example: 01828398225
+ */
+
+/**
+ * Register definition
+ * @swagger
+ * definitions:
+ *   register:
+ *     required:
+ *       - name
+ *       - email
+ *       - username
+ *       - password
+ *     properties:
+ *       name:
+ *         type: string
+ *         description: Full Name of the user
+ *         example: Asif Istiaque
+ *       email:
+ *         type: string
+ *         description: Email of the user
+ *         example: asifistiaque.ai@gmail.com
+ *       username:
+ *         type: string
+ *         description: username of the user
+ *         example: asifistiaque
+ *       password:
+ *         type: string
+ *         description: Password of the user
+ *         example: 01828398225
+ */
+
+/**
  * @swagger
  * /auth/login:
  *   post:
  *     description: User login route
+ *     tags: [Auth]
  *     parameters:
- *       - name: email
- *         in: req body
+ *       - name: req body
+ *         in: body
  *         required: true
- *         type: string
- *       - name: password
- *         in: req body
- *         required: true
- *         type: string
+ *         schema:
+ *           $ref: "#/definitions/login"
  *     responses:
  *       200:
  *         description: String - token
@@ -93,23 +139,13 @@ export default router;
  * /auth/register:
  *   post:
  *     description: Sign up/Register a new user
+ *     tags: [Auth]
  *     parameters:
- *       - name: name
- *         in: req body
+ *       - name: req body
+ *         in: body
  *         required: true
- *         type: string
- *       - name: email
- *         in: req body
- *         required: true
- *         type: string
- *       - name: username
- *         in: req body
- *         required: true
- *         type: string
- *       - name: password
- *         in: req body
- *         required: true
- *         type: string
+ *         schema:
+ *           $ref: "#/definitions/register"
  *     responses:
  *       400:
  *         description: String - error message
