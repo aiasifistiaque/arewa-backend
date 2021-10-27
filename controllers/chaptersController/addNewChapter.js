@@ -11,7 +11,7 @@ const addNewChapter = asyncHandler(async (req, res) => {
 			image,
 			description,
 			book,
-			paid,
+			paid: paid || false,
 			price: price || 0,
 		});
 
@@ -19,16 +19,16 @@ const addNewChapter = asyncHandler(async (req, res) => {
 
 		if (findBook) {
 			const addChapter = await chapter.save();
-			res.status(201).json({ status: 'created', chapter: addChapter });
+			res.status(201).json({ status: 'created', doc: addChapter });
 			if (addChapter) {
 				findBook.chapters.push(addChapter._id);
 				await findBook.save();
 			}
 		} else {
-			res.status(404).json({ status: 'error', msg: 'book not found' });
+			res.status(404).json({ status: 'error', message: 'book not found' });
 		}
 	} catch (e) {
-		res.status(500).json({ status: 'error', msg: e.message });
+		res.status(500).json({ status: 'error', message: e.message });
 	}
 });
 

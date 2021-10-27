@@ -29,10 +29,10 @@ const addNewBook = asyncHandler(async (req, res) => {
 		});
 
 		const addBook = await book.save();
-		res.status(201).json({ status: 'created', book: addBook });
+		res.status(201).json({ status: 'created', doc: addBook });
 	} catch (e) {
 		console.log(e);
-		res.status(500).json({ status: 'error', msg: e.message });
+		res.status(500).json({ status: 'error', message: e.message });
 	}
 });
 

@@ -5,14 +5,14 @@ import asyncHandler from 'express-async-handler';
 export function authfunction(req, res, next) {
 	const token = req.header('x-auth-token');
 	if (!token)
-		return res.status(401).json({ msg: 'Access denied. No token present' });
+		return res.status(401).json({ message: 'Access denied. No token present' });
 
 	try {
 		const decoded = jwt.verify(token, process.env.JWT_PRIVATE_KEY);
 		req.user = decoded;
 		next();
 	} catch (ex) {
-		res.status(400).json({ msg: 'Invalid token.' });
+		res.status(400).json({ message: 'Invalid token.' });
 	}
 }
 
@@ -31,12 +31,12 @@ export const protect = asyncHandler(async (req, res, next) => {
 
 			next();
 		} catch (error) {
-			res.status(401).json({ msg: 'Not authorized, token failed' });
+			res.status(401).json({ message: 'Not authorized, token failed' });
 		}
 	}
 
 	if (!token) {
-		return res.status(401).json({ msg: 'Not authorized, no token' });
+		return res.status(401).json({ message: 'Not authorized, no token' });
 	}
 });
 
@@ -46,6 +46,6 @@ export const admin = (req, res, next) => {
 	} else {
 		res
 			.status(401)
-			.json({ msg: 'You are not authorized to access this information' });
+			.json({ message: 'You are not authorized to access this information' });
 	}
 };

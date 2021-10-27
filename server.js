@@ -15,6 +15,7 @@ import libraryRoute from './routes/libraryRoute.js';
 import commentsRoute from './routes/commentsRoute.js';
 import refillRoute from './routes/refillRoute.js';
 import reportRoute from './routes/reportRoute.js';
+import uploadRoute from './routes/awsUpload.js';
 
 dotenv.config();
 
@@ -26,6 +27,40 @@ app.use(express.json());
 if (process.env.NODE_ENV === 'development') {
 	app.use(morgan('dev'));
 }
+
+//configuring the AWS environment
+// AWS.config.update({
+// 	region: process.env.AWS_REGION,
+// 	accessKeyId: process.env.AWS_ACCESS_KEY,
+// 	secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+// 	signatureVersion: 'v4',
+// });
+
+// const s3 = new AWS.S3();
+// const filePath = './data/book.jpg';
+
+//configuring parameters
+// const fileStream = fs.createReadStream(filePath);
+// const fileName = `images/${Date.now()}_${path.basename(filePath)}`;
+
+// var params = {
+// 	Bucket: process.env.S3_BUCKET_NAME,
+// 	Body: fileStream,
+// 	Key: fileName,
+// };
+
+// s3.upload(params, function (err, data) {
+// 	//handle error
+// 	if (err) {
+// 		console.log('Error', err);
+// 	}
+
+// 	//success
+// 	if (data) {
+// 		console.log(data);
+// 		console.log('Uploaded in:', data.Location);
+// 	}
+// });
 
 const swaggerOptions = {
 	swaggerDefinition: {
@@ -68,7 +103,7 @@ app.use('/api/report', reportRoute);
 // app.use('/api/search', searchRoute);
 // app.use('/api/explore', exploreRoute);
 // app.use('/api/dashboard', dashRoute);
-// app.use('/api/upload', uploadRoute);
+app.use('/api/upload', uploadRoute);
 // app.use('/api/review', reviewRoute);
 
 const __dirname = path.resolve();

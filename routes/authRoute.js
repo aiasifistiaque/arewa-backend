@@ -4,10 +4,14 @@ import express from 'express';
 import _ from 'lodash';
 import Joi from 'joi';
 import bcrypt from 'bcrypt';
+import { protect } from '../middleware/auth.js';
+import getSelf from '../controllers/usersController/getUser.js';
 
 const router = express.Router();
 
 //const jwtPrivateKey = process.env.JWT_PRIVATE_KEY;
+
+router.get('/', protect, getSelf);
 
 router.post('/login', async (req, res) => {
 	const { error } = loginValidate(req.body);
@@ -111,6 +115,23 @@ export default router;
  *         type: string
  *         description: Password of the user
  *         example: 01828398225
+ */
+
+/**
+ * @swagger
+ * /auth:
+ *   get:
+ *     description: Self Details Route
+ *     tags: [Auth]
+ *     parameters:
+ *       - name: token
+ *         in: req heaedr
+ *         required: true
+ *     responses:
+ *       200:
+ *         description: doc - Object.doc
+ *       500:
+ *         description: String - error
  */
 
 /**
