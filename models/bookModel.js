@@ -38,6 +38,7 @@ const bookSchema = new mongoose.Schema(
 		},
 		tags: [],
 		genre: { type: String, required: true, trim: true },
+		status: { type: String, default: 'unpublished', trim: true },
 		language: { type: String, required: true, trim: true },
 		type: { type: String, required: true, trim: true, default: 'free' },
 		rating: {
