@@ -35,12 +35,16 @@ export default router;
  *         description: page number default 0
  *         in: req query url params
  *         type: Number
+ *       - name: type
+ *         description: if type is home then data is smaller
+ *         in: req query url params
+ *         type: String
  *       - name: perpage
  *         description: Number of products per page default 10
  *         in: req query url params
  *         type: Number
  *       - name: sort
- *         description: sort options newest, oldest, nameAsc, nameDsc
+ *         description: sort options newest, oldest, nameAsc, nameDsc, popular
  *         in: req query url params
  *         type: string
  *     responses:

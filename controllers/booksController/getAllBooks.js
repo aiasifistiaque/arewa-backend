@@ -18,17 +18,29 @@ const getAllBooks = asyncHandler(async (req, res) => {
 
 	if (option == 'newest') sort = '-createdAt';
 	else if (option == 'oldest') sort = 'createdAt';
-	else if (option == 'nameAsc') sort = 'name';
-	else if (option == 'nameDsc') sort = '-name';
+	else if (option == 'nameAsc') sort = 'title';
+	else if (option == 'nameDsc') sort = '-title';
+	else if (option == 'popular') sort = '-likes';
+
+	let select = '';
+
+	let populate = [
+		{ path: 'chapters', select: 'title' },
+		{ path: 'author', select: '_id name' },
+	];
+
+	if (req.query.type == 'home') {
+		console.log('home');
+		select = '_id title image createdAt tags description';
+		populate = [];
+	}
 
 	try {
 		const count = await Book.countDocuments(genre);
 		const totalPages = Math.ceil(count / perPage);
 		const books = await Book.find(genre)
-			.populate([
-				{ path: 'chapters', select: 'title' },
-				{ path: 'author', select: 'name' },
-			])
+			.select(select)
+			.populate(populate)
 			.sort(sort)
 			.skip(page * perPage)
 			.limit(perPage);
