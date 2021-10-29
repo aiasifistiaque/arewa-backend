@@ -1,5 +1,6 @@
 import asyncHandler from 'express-async-handler';
 import Refill from '../../models/refillModel.js';
+import { User } from '../../models/userModel.js';
 
 const refillRequest = asyncHandler(async (req, res) => {
 	const { name, type, target, from, date, amount } = req.body;
@@ -14,10 +15,16 @@ const refillRequest = asyncHandler(async (req, res) => {
 			from,
 			date,
 			amount,
-			status: 'Requested',
+			status: type == 'paystack' ? 'Completed' : 'Requested',
 		});
 
 		const refillRequested = await refill.save();
+
+		if (type == 'paystack') {
+			const self = await User.findById(user);
+			self.walletBalance = self.walletBalance + amount;
+			self.save();
+		}
 
 		return res.status(201).json({ status: 'created', doc: refillRequested });
 	} catch (e) {

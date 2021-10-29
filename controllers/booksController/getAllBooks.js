@@ -47,7 +47,7 @@ const getAllBooks = asyncHandler(async (req, res) => {
 		res.status(200).json({ books, count, perPage, page: page + 1, totalPages });
 	} catch (e) {
 		console.log(e);
-		return res.status(500).send('There was an error');
+		return res.status(500).json({ message: 'There was an error' });
 	}
 });
 

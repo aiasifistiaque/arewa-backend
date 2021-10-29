@@ -31,6 +31,10 @@ export default router;
  *         description: get books from a specific genre
  *         in: req query url params
  *         type: String
+ *       - name: search
+ *         description: search for books
+ *         in: req query url params
+ *         type: String
  *       - name: page
  *         description: page number default 0
  *         in: req query url params

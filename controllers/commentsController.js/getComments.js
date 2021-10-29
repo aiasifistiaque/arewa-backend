@@ -35,7 +35,7 @@ const getComments = asyncHandler(async (req, res) => {
 			.json({ doc: data, count, perPage, page: page + 1, totalPages });
 	} catch (e) {
 		console.log(e);
-		return res.status(500).send('There was an error');
+		return res.status(500).send({ message: 'There was an error' });
 	}
 });
 

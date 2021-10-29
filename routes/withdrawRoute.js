@@ -1,20 +1,20 @@
 import express from 'express';
 import { protect } from '../middleware/auth.js';
-import refillRequest from '../controllers/usersController/refillRequest.js';
-import myRefills from '../controllers/usersController/myRefills.js';
+import withdrawRequest from '../controllers/usersController/withdrawRequest.js';
+import myWithdraws from '../controllers/usersController/myWithdraws.js';
 
 /**Swagger doc
  * completed
  * version 0.1
- * 19/09/21 16:12
- * total routes: 3
- * root: /api/follow/
+ * 29/10/21 16:12
+ * total routes: 2
+ * root: /api/withdraw/
  */
 
 const router = express.Router();
 
-router.post('/', protect, refillRequest);
-router.get('/', protect, myRefills);
+router.get('/', protect, myWithdraws);
+router.post('/', protect, withdrawRequest);
 
 export default router;
 
@@ -22,45 +22,42 @@ export default router;
  * Add a refill request
  * @swagger
  * definitions:
- *   refillRequest:
+ *   withdrawRequest:
  *     required:
+ *       - name
  *       - amount
- *       - type
- *       - target
- *       - from
+ *       - account
+ *       - bank
+ *       - branch
  *     properties:
+ *       name:
+ *         type: string
+ *         description: Name of the account holder
+ *         example: Asif Istiaque
  *       amount:
  *         type: number
  *         description: amount to be transferred
- *         example: 50
- *       type:
- *         type: string
- *         description: options - bank/airtrime
- *         example: bank
- *       target:
- *         type: string
- *         description: Name of the user's phone carrier or user's bank
- *         example: BRAC bank
- *       from:
+ *         example: 2000
+ *       account:
  *         type: string
  *         description: account number of user bank or airtime transfer number
  *         example: AC00923128523402394
- *       name:
+ *       bank:
  *         type: string
- *         description: Name of the account holder in case of bank transfer
- *         example: Asif Istiaque
- *       date:
+ *         description: Name of the user's phone carrier or user's bank
+ *         example: BRAC bank
+ *       branch:
  *         type: string
- *         description: Date when bank transfer was mane in case of bank transfer
- *         example: Dec 22,2021
+ *         description: Branch of the bank
+ *         example: Mohammadpur Branch
  */
 
 /**
  * Route #1
  * @swagger
- * /refill:
+ * /withdraw:
  *   get:
- *     summary: Get all refill requests of the user
+ *     summary: Get all withdraw requests of the user
  *     description: Get all refills of the user [PROTECT]
  *     parameters:
  *       - name: token
@@ -77,10 +74,10 @@ export default router;
 /**
  * Route #2
  * @swagger
- * /refill:
+ * /withdraw:
  *   post:
- *     summary: Creater a new refill request
- *     description: Creater a new refill request [PROTECT]
+ *     summary: Creater a new withdraw request
+ *     description: Creater a new withdraw request [PROTECT]
  *     parameters:
  *       - name: token
  *         description: token of the user
@@ -88,12 +85,14 @@ export default router;
  *         required: true
  *         type: String
  *       - name: req body
- *         description: New Refill requesr
+ *         description: New Withdraw request
  *         in: body
  *         required: true
  *         schema:
- *           $ref: "#/definitions/refillRequest"
+ *           $ref: "#/definitions/withdrawRequest"
  *     responses:
+ *       400:
+ *         description: String - error
  *       500:
  *         description: String - error
  *       200:

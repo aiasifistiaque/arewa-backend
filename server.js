@@ -14,6 +14,7 @@ import followRoute from './routes/followRoute.js';
 import libraryRoute from './routes/libraryRoute.js';
 import commentsRoute from './routes/commentsRoute.js';
 import refillRoute from './routes/refillRoute.js';
+import withdrawRoute from './routes/withdrawRoute.js';
 import reportRoute from './routes/reportRoute.js';
 import uploadRoute from './routes/awsUpload.js';
 
@@ -101,7 +102,7 @@ app.use('/api/comments', commentsRoute);
 app.use('/api/refill', refillRoute);
 app.use('/api/report', reportRoute);
 // app.use('/api/search', searchRoute);
-// app.use('/api/explore', exploreRoute);
+app.use('/api/withdraw', withdrawRoute);
 // app.use('/api/dashboard', dashRoute);
 app.use('/api/upload', uploadRoute);
 // app.use('/api/review', reviewRoute);

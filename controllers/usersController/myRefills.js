@@ -5,7 +5,7 @@ const myRefills = asyncHandler(async (req, res) => {
 	const user = req.user._id;
 
 	try {
-		const refills = await Refill.find({ user });
+		const refills = await Refill.find({ user }).sort('-createdAt');
 
 		return res.status(200).json({ status: 'success', doc: refills });
 	} catch (e) {
