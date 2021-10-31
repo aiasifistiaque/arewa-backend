@@ -12,8 +12,12 @@ const getAllBooks = asyncHandler(async (req, res) => {
 
 	let genre = req.query.search
 		? { title: { $regex: req.query.search, $options: 'i' } }
+		: req.query.genre && req.query.paid
+		? { genre: req.query.genre, type: 'paid' }
 		: req.query.genre
 		? { genre: req.query.genre }
+		: req.query.paid
+		? { type: 'paid' }
 		: {};
 
 	if (option == 'newest') sort = '-createdAt';
@@ -31,7 +35,7 @@ const getAllBooks = asyncHandler(async (req, res) => {
 
 	if (req.query.type == 'home') {
 		console.log('home');
-		select = '_id title image createdAt tags description';
+		select = '_id title image createdAt tags description type';
 		populate = [];
 	}
 

@@ -17,14 +17,11 @@ const getFollowers = asyncHandler(async (req, res) => {
 		});
 
 		const followings = await Follow.find({ user: req.user._id })
-			.populate(
-				'following',
-				'_id image name username followers followings email'
-			)
+			.select('following')
+			.populate('following', '_id image name username followers followings')
 			.sort(option);
 		const followers = await Follow.find({ following: req.user._id })
-			.populate('user', '_id image name username followers followings email')
-			.populate('author', 'name')
+			.populate('user', '_id image name username followers followings')
 			.sort(option);
 
 		res.status(200).json({
