@@ -4,6 +4,7 @@ import Library from '../../models/libraryModel.js';
 const getLibrary = asyncHandler(async (req, res) => {
 	let sort = '-createdAt';
 	const option = req.query.sort;
+	const status = req.query.status || 'Added';
 
 	const user = req.user._id;
 	const perPage = parseInt(req.query.perpage) || 10;
@@ -15,9 +16,9 @@ const getLibrary = asyncHandler(async (req, res) => {
 	else if (option == 'nameDsc') sort = '-name';
 
 	try {
-		const count = await Library.countDocuments({ user: user });
+		const count = await Library.countDocuments({ user: user, status });
 		const pages = Math.ceil(count / perPage);
-		const doc = await Library.find({ user: user })
+		const doc = await Library.find({ user: user, status })
 			.populate([
 				{
 					path: 'book',
