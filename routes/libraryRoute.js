@@ -3,6 +3,7 @@ import { protect } from '../middleware/auth.js';
 import addToLibrary from '../controllers/libraryController.js/addToLibrary.js';
 import getLibrary from '../controllers/libraryController.js/getLibrary.js';
 import changeChapter from '../controllers/libraryController.js/changeChapter.js';
+import myBooks from '../controllers/usersController/myBooks.js';
 
 /**Swagger doc
  * completed
@@ -17,6 +18,7 @@ const router = express.Router();
 router.post('/', protect, addToLibrary);
 router.get('/', protect, getLibrary);
 router.put('/chapter', protect, changeChapter);
+router.get('/writings', protect, myBooks);
 
 export default router;
 
@@ -98,4 +100,31 @@ export default router;
  *         description: returns Object - {status:String, msg:String}
  *       201:
  *         description: returns {status:String, book:object} details
+ */
+
+/**
+ * Route #1
+ * @swagger
+ * /library/writings:
+ *   get:
+ *     description: Get books written by current user
+ *     parameters:
+ *       - name: token
+ *         description: token of the user
+ *         in: req header
+ *         required: true
+ *         type: String
+ *       - name: status
+ *         description: published unpublished or all
+ *         in: req query url params
+ *         type: string
+ *       - name: sort
+ *         description: sort options newest, oldest
+ *         in: req query url params
+ *         type: string
+ *     responses:
+ *       500:
+ *         description: String - error
+ *       200:
+ *         description: returns Object {doc:Array, status:String}
  */

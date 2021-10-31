@@ -3,6 +3,7 @@ import { protect } from '../middleware/auth.js';
 import getAllBooks from '../controllers/booksController/getAllBooks.js';
 import addNewBook from '../controllers/booksController/addNewBook.js';
 import getBookById from '../controllers/booksController/getBookById.js';
+import publishBook from '../controllers/booksController/publishBook.js';
 
 /**Swagger doc
  * completed
@@ -17,8 +18,28 @@ const router = express.Router();
 router.get('/', getAllBooks);
 router.post('/', protect, addNewBook);
 router.get('/:id', getBookById);
+router.put('/publish', protect, publishBook);
 
 export default router;
+
+/**
+ * Change Publish Status
+ * @swagger
+ * definitions:
+ *   publishStatusChange:
+ *     required:
+ *       - id
+ *       - status
+ *     properties:
+ *       id:
+ *         type: string
+ *         description: id of the book
+ *         example: 617a8d08f563e91682368649
+ *       status:
+ *         type: string
+ *         description: updated status
+ *         example: publish
+ */
 
 /**
  * Route #1
@@ -41,6 +62,10 @@ export default router;
  *         type: Number
  *       - name: type
  *         description: if type is home then data is smaller
+ *         in: req query url params
+ *         type: String
+ *       - name: paid
+ *         description: book is paid or not paid=1
  *         in: req query url params
  *         type: String
  *       - name: perpage
@@ -128,4 +153,30 @@ export default router;
  *         description: String - error
  *       200:
  *         description: returns book:Object
+ */
+
+/**
+ * Route #2
+ * @swagger
+ * /books/publish:
+ *   post:
+ *     summary: Change publish status
+ *     description: Change publish status [PROTECT]
+ *     parameters:
+ *       - name: token
+ *         description: token of the user
+ *         in: req header
+ *         required: true
+ *         type: String
+ *       - name: req body
+ *         description: Change publish status
+ *         in: body
+ *         required: true
+ *         schema:
+ *           $ref: "#/definitions/publishStatusChange"
+ *     responses:
+ *       500:
+ *         description: returns Object {status:String, message:error}
+ *       200:
+ *         description: returns Object {status:String, doc:Object}
  */
