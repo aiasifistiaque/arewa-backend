@@ -6,7 +6,10 @@ const getChapterById = asyncHandler(async (req, res) => {
 	try {
 		const chapter = await Chapter.findById(id).populate({
 			path: 'book',
-			populate: { path: 'chapters', select: '_id title' },
+			populate: [
+				{ path: 'chapters', select: '_id title' },
+				{ path: 'author', select: '_id name' },
+			],
 		});
 		res.status(200).json(chapter);
 	} catch (error) {
