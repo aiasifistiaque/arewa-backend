@@ -2,6 +2,7 @@ import Chapter from '../../models/chapterModel.js';
 import asyncHandler from 'express-async-handler';
 import Unlock from '../../models/unlockModel.js';
 import { User } from '../../models/userModel.js';
+import { commission } from '../../constants.js';
 
 const unlockChapter = asyncHandler(async (req, res) => {
 	const { id } = req.body;
@@ -31,7 +32,9 @@ const unlockChapter = asyncHandler(async (req, res) => {
 			}
 
 			const buyer = await User.findById(userId);
-			if (!buyer) {
+			const author = await User.findById(chapter.book.author);
+
+			if (!buyer || !author) {
 				return res.status(404).json({ message: 'User not found' });
 			}
 
@@ -47,8 +50,11 @@ const unlockChapter = asyncHandler(async (req, res) => {
 				});
 				const created = await unlock.save();
 				if (created) {
+					const earning = chapter.price - (chapter.price * commission) / 100;
+					author.earning = author.earning + earning;
 					buyer.walletBalance = buyer.walletBalance - chapter.price;
 					await buyer.save();
+					await author.save();
 					return res.status(201).json({ doc: created });
 				} else {
 					res.status(500).json({ message: 'Could not be added' });

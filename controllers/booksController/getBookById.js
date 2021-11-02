@@ -3,6 +3,8 @@ import asyncHandler from 'express-async-handler';
 
 const getBookById = asyncHandler(async (req, res) => {
 	const { id } = req.params;
+	const userId = req.user._id;
+	let viewer = 'reader';
 	try {
 		const book = await Book.findById(id).populate([
 			{
@@ -11,10 +13,14 @@ const getBookById = asyncHandler(async (req, res) => {
 			},
 			{
 				path: 'chapters',
-				select: '_id title paid',
+				select: '_id title paid status',
 			},
 		]);
-		res.status(200).json(book);
+		if (book.author._id == userId) {
+			viewer = 'self';
+		}
+
+		res.status(200).json({ doc: book, viewer });
 	} catch (error) {
 		res.status(404).json({ message: `Book #${id} not found` });
 	}

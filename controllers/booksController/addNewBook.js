@@ -11,6 +11,7 @@ const addNewBook = asyncHandler(async (req, res) => {
 		language,
 		type,
 		rating,
+		platform,
 	} = req.body;
 
 	const author = req.user._id;
@@ -26,6 +27,7 @@ const addNewBook = asyncHandler(async (req, res) => {
 			language,
 			type,
 			rating,
+			platform,
 		});
 
 		const addBook = await book.save();

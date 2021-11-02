@@ -28,8 +28,13 @@ const chapterSchema = new mongoose.Schema(
 			required: true,
 			default: 0,
 		},
+		author: {
+			type: mongoose.Schema.Types.ObjectId,
+			ref: 'User',
+		},
 		paid: { type: Boolean, required: true, default: false },
 		price: { type: Number, required: true, defult: 0 },
+		status: { type: String, default: 'unpublished', trim: true },
 	},
 	{
 		timestamps: true,

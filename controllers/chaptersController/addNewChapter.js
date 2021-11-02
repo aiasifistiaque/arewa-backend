@@ -4,6 +4,7 @@ import Book from '../../models/bookModel.js';
 
 const addNewChapter = asyncHandler(async (req, res) => {
 	const { title, image, description, book, paid, price } = req.body;
+	const author = req.user._id;
 
 	try {
 		const chapter = new Chapter({
@@ -11,6 +12,7 @@ const addNewChapter = asyncHandler(async (req, res) => {
 			image,
 			description,
 			book,
+			author,
 			paid: paid || false,
 			price: price || 0,
 		});

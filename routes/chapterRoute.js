@@ -2,6 +2,7 @@ import express from 'express';
 import { protect } from '../middleware/auth.js';
 import addNewChapter from '../controllers/chaptersController/addNewChapter.js';
 import getChapterById from '../controllers/chaptersController/getChapterById.js';
+import publishChapter from '../controllers/chaptersController/publishChapter.js';
 
 /**Swagger doc
  * completed
@@ -14,9 +15,72 @@ import getChapterById from '../controllers/chaptersController/getChapterById.js'
 const router = express.Router();
 
 router.post('/', protect, addNewChapter);
-router.get('/:id', getChapterById);
+router.get('/:id', protect, getChapterById);
+router.put('/publish', protect, publishChapter);
 
 export default router;
+
+/**
+ * Add a new chapter
+ * @swagger
+ * definitions:
+ *   addNewChapter:
+ *     required:
+ *       - title
+ *       - image
+ *       - description
+ *       - book
+ *       - paid
+ *       - price
+ *     properties:
+ *       title:
+ *         type: string
+ *         description: Title of the chapter
+ *         example: In the Tall Grass
+ *       image:
+ *         type: string
+ *         description: Cover image of chapter
+ *         example: https://images.pexels.com/photos/4210782/pexels-photo-4210782.jpeg
+ *       description:
+ *         type: string
+ *         description: A Brief description of the book
+ *         example: In the Tall Grass is a 2019 Canadian supernatural horror drama film written and directed by Vincenzo Natali
+ *       book:
+ *         type: string
+ *         description: Id of the book
+ *         example: 6180fb2a85f761e5167328f0
+ *       status:
+ *         type: string
+ *         description: published or not
+ *         example: unpublished
+ *       paid:
+ *         type: boolean
+ *         description: Language
+ *         example: true
+ *       price:
+ *         type: number
+ *         description: price of chapter
+ *         example: 200
+ */
+
+/**
+ * Change Publish Status
+ * @swagger
+ * definitions:
+ *   publishStatusChangeChapter:
+ *     required:
+ *       - id
+ *       - status
+ *     properties:
+ *       id:
+ *         type: string
+ *         description: id of the chapter
+ *         example: 617a8d08f563e91682368649
+ *       status:
+ *         type: string
+ *         description: updated status
+ *         example: publish
+ */
 
 /**
  * Route #1
@@ -25,41 +89,17 @@ export default router;
  *   post:
  *     description: Crete a new chapter [PROTECT]
  *     parameters:
- *       - name: title
- *         description: Title of the book
- *         in: req body
+ *       - name: req body
+ *         description: request body
+ *         in: body
  *         required: true
- *         type: String
- *       - name: image
- *         description: link to the Cover image of book
- *         in: req body
- *         required: true
- *         type: String
- *       - name: description
- *         description: A short description of the book
- *         in: req body
- *         required: true
- *         type: String
- *       - name: book
- *         description: id of the book
- *         in: req body
- *         required: true
- *         type: ID
+ *         schema:
+ *           $ref: "#/definitions/addNewChapter"
  *       - name: token
  *         description: auth token
  *         in: header token
  *         required: true
  *         type: token
- *       - name: paid
- *         description: Wheather a book is paid or not
- *         in: req body
- *         required: true
- *         type: Boolean
- *       - name: price
- *         description: price of the book if paid default 0
- *         in: req body
- *         required: true
- *         type: Number
  *     responses:
  *       500:
  *         description: returns Object - {status:String, msg:String}
@@ -84,4 +124,30 @@ export default router;
  *         description: String - error
  *       200:
  *         description: returns chapter:Object
+ */
+
+/**
+ * Route #2
+ * @swagger
+ * /chapters/publish:
+ *   post:
+ *     summary: Change publish status of chapter
+ *     description: Change publish status of chapter [PROTECT]
+ *     parameters:
+ *       - name: token
+ *         description: token of the user
+ *         in: req header
+ *         required: true
+ *         type: String
+ *       - name: req body
+ *         description: Change publish status
+ *         in: body
+ *         required: true
+ *         schema:
+ *           $ref: "#/definitions/publishStatusChangeChapter"
+ *     responses:
+ *       500:
+ *         description: returns Object {status:String, message:error}
+ *       200:
+ *         description: returns Object {status:String, doc:Object}
  */

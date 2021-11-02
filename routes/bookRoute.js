@@ -17,7 +17,7 @@ const router = express.Router();
 
 router.get('/', getAllBooks);
 router.post('/', protect, addNewBook);
-router.get('/:id', getBookById);
+router.get('/:id', protect, getBookById);
 router.put('/publish', protect, publishBook);
 
 export default router;
@@ -39,6 +39,63 @@ export default router;
  *         type: string
  *         description: updated status
  *         example: publish
+ */
+
+/**
+ * Add a New Book
+ * @swagger
+ * definitions:
+ *   addNewBook:
+ *     required:
+ *       - title
+ *       - image
+ *       - description
+ *       - genre
+ *       - status
+ *       - language
+ *       - type
+ *       - rating
+ *     properties:
+ *       title:
+ *         type: string
+ *         description: Title of the book
+ *         example: In the Tall Grass
+ *       image:
+ *         type: string
+ *         description: Image of book
+ *         example: https://images.pexels.com/photos/4210782/pexels-photo-4210782.jpeg
+ *       description:
+ *         type: string
+ *         description: A Brief description of the book
+ *         example: In the Tall Grass is a 2019 Canadian supernatural horror drama film written and directed by Vincenzo Natali
+ *       genre:
+ *         type: string
+ *         description: Genre of the book
+ *         example: action
+ *       status:
+ *         type: string
+ *         description: published or not
+ *         example: unpublished
+ *       language:
+ *         type: string
+ *         description: Language
+ *         example: English
+ *       type:
+ *         type: string
+ *         description: If book is free or paid
+ *         example: paid
+ *       rating:
+ *         type: string
+ *         description: Maturity rating
+ *         example: adult
+ *       tags:
+ *         type: string
+ *         description: Tags of book
+ *         example: [horror, thrill]
+ *       platform:
+ *         type: string
+ *         description: If book is app specific or not
+ *         example: app only
  */
 
 /**
@@ -88,47 +145,20 @@ export default router;
  * @swagger
  * /books:
  *   post:
+ *     summary: Crete a new book [PROTECT]
  *     description: Crete a new book [PROTECT]
  *     parameters:
- *       - name: title
- *         description: Title of the book
- *         in: req body
- *         required: true
- *         type: String
- *       - name: image
- *         description: link to the Cover image of book
- *         in: req body
- *         required: true
- *         type: String
- *       - name: description
- *         description: A short description of the book
- *         in: req body
- *         required: true
- *         type: String
  *       - name: token
  *         description: auth token
  *         in: header token
  *         required: true
  *         type: token
- *       - name: tags
- *         description: tags which belongs to the book
- *         in: req body
- *         type: Array
- *       - name: genre
- *         description: Book genre
- *         in: req body
+ *       - name: req body
+ *         description: request body
+ *         in: body
  *         required: true
- *         type: String
- *       - name: language
- *         description: Book genre
- *         in: req body
- *         required: true
- *         type: String
- *       - name: type
- *         description: Wheather a book is paid or not
- *         in: req body
- *         required: true
- *         type: String
+ *         schema:
+ *           $ref: "#/definitions/addNewBook"
  *     responses:
  *       500:
  *         description: returns Object - {status:String, msg:String}
@@ -148,6 +178,11 @@ export default router;
  *         in: req params
  *         required: true
  *         type: String
+ *       - name: token
+ *         description: auth token
+ *         in: header token
+ *         required: true
+ *         type: token
  *     responses:
  *       404:
  *         description: String - error

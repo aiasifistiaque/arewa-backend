@@ -37,6 +37,7 @@ const bookSchema = new mongoose.Schema(
 			default: 0,
 		},
 		tags: [],
+		platform: { type: String, trim: true, lowercase: true },
 		genre: { type: String, required: true, trim: true },
 		status: { type: String, default: 'unpublished', trim: true },
 		language: { type: String, required: true, trim: true },
