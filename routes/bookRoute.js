@@ -4,6 +4,7 @@ import getAllBooks from '../controllers/booksController/getAllBooks.js';
 import addNewBook from '../controllers/booksController/addNewBook.js';
 import getBookById from '../controllers/booksController/getBookById.js';
 import publishBook from '../controllers/booksController/publishBook.js';
+import editBook from '../controllers/booksController/editBook.js';
 
 /**Swagger doc
  * completed
@@ -19,6 +20,7 @@ router.get('/', getAllBooks);
 router.post('/', protect, addNewBook);
 router.get('/:id', protect, getBookById);
 router.put('/publish', protect, publishBook);
+router.put('/', protect, editBook);
 
 export default router;
 
@@ -76,6 +78,58 @@ export default router;
  *         type: string
  *         description: published or not
  *         example: unpublished
+ *       language:
+ *         type: string
+ *         description: Language
+ *         example: English
+ *       type:
+ *         type: string
+ *         description: If book is free or paid
+ *         example: paid
+ *       rating:
+ *         type: string
+ *         description: Maturity rating
+ *         example: adult
+ *       tags:
+ *         type: string
+ *         description: Tags of book
+ *         example: [horror, thrill]
+ *       platform:
+ *         type: string
+ *         description: If book is app specific or not
+ *         example: app only
+ */
+
+/**
+ * Edit a book
+ * @swagger
+ * definitions:
+ *   editBook:
+ *     required:
+ *       - id
+ *       - title
+ *       - description
+ *       - genre
+ *       - language
+ *       - type
+ *       - rating
+ *     properties:
+ *       id:
+ *         type: string
+ *         description: Id of the book
+ *         example: 618030c7b05608dc41f46eeb
+ *       title:
+ *         type: string
+ *         description: Title of the book
+ *         example: In the Tall Grass
+ *       description:
+ *         type: string
+ *         description: A Brief description of the book
+ *         example: In the Tall Grass is a 2019 Canadian supernatural horror drama film written and directed by Vincenzo Natali
+ *       genre:
+ *         type: string
+ *         description: Genre of the book
+ *         example: action
  *       language:
  *         type: string
  *         description: Language
@@ -214,4 +268,30 @@ export default router;
  *         description: returns Object {status:String, message:error}
  *       200:
  *         description: returns Object {status:String, doc:Object}
+ */
+
+/**
+ * Route #2
+ * @swagger
+ * /books:
+ *   put:
+ *     summary: Edit a book [PROTECT]
+ *     description: Edit a book [PROTECT]
+ *     parameters:
+ *       - name: token
+ *         description: auth token
+ *         in: header token
+ *         required: true
+ *         type: token
+ *       - name: req body
+ *         description: request body
+ *         in: body
+ *         required: true
+ *         schema:
+ *           $ref: "#/definitions/editBook"
+ *     responses:
+ *       500:
+ *         description: returns Object - {status:String, msg:String}
+ *       201:
+ *         description: returns {status:String, book:object} book that has been edited
  */

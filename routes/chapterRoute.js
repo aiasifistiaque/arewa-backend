@@ -3,6 +3,7 @@ import { protect } from '../middleware/auth.js';
 import addNewChapter from '../controllers/chaptersController/addNewChapter.js';
 import getChapterById from '../controllers/chaptersController/getChapterById.js';
 import publishChapter from '../controllers/chaptersController/publishChapter.js';
+import editChapter from '../controllers/chaptersController/editChapter.js';
 
 /**Swagger doc
  * completed
@@ -17,6 +18,7 @@ const router = express.Router();
 router.post('/', protect, addNewChapter);
 router.get('/:id', protect, getChapterById);
 router.put('/publish', protect, publishChapter);
+router.put('/', protect, editChapter);
 
 export default router;
 
@@ -53,6 +55,40 @@ export default router;
  *         type: string
  *         description: published or not
  *         example: unpublished
+ *       paid:
+ *         type: boolean
+ *         description: Language
+ *         example: true
+ *       price:
+ *         type: number
+ *         description: price of chapter
+ *         example: 200
+ */
+
+/**
+ * Edit a chapter
+ * @swagger
+ * definitions:
+ *   editChapter:
+ *     required:
+ *       - id
+ *       - title
+ *       - description
+ *       - paid
+ *       - price
+ *     properties:
+ *       id:
+ *         type: string
+ *         description: Id of the chapter
+ *         example: 618030c7b05608dc41f46eeb
+ *       title:
+ *         type: string
+ *         description: Title of the chapter
+ *         example: In the Tall Grass
+ *       description:
+ *         type: string
+ *         description: A Brief description of the book
+ *         example: In the Tall Grass is a 2019 Canadian supernatural horror drama film written and directed by Vincenzo Natali
  *       paid:
  *         type: boolean
  *         description: Language
@@ -105,6 +141,31 @@ export default router;
  *         description: returns Object - {status:String, msg:String}
  *       201:
  *         description: returns {status:String, chapter:object} chapter that has been created
+ */
+
+/**
+ * Route #1
+ * @swagger
+ * /chapters:
+ *   put:
+ *     description: Edit a chapter [PROTECT]
+ *     parameters:
+ *       - name: req body
+ *         description: request body
+ *         in: body
+ *         required: true
+ *         schema:
+ *           $ref: "#/definitions/editChapter"
+ *       - name: token
+ *         description: auth token
+ *         in: header token
+ *         required: true
+ *         type: token
+ *     responses:
+ *       500:
+ *         description: returns Object - {status:String, msg:String}
+ *       201:
+ *         description: returns {status:String, chapter:object} chapter that has been editer
  */
 
 /**

@@ -35,7 +35,7 @@ const getAllBooks = asyncHandler(async (req, res) => {
 
 	if (req.query.type == 'home') {
 		console.log('home');
-		select = '_id title image createdAt tags description type';
+		select = '_id title image createdAt tags description type tags';
 		populate = [];
 	}
 
