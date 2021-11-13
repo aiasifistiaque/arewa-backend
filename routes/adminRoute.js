@@ -10,6 +10,13 @@ import earnedFromBook from '../controllers/booksController/earnedFromBook.js';
 import earnedFromChapter from '../controllers/booksController/earnedFromChapter.js';
 import adminGetReports from '../controllers/admin/adminGetReports.js';
 import adminBooks from '../controllers/admin/adminBooks.js';
+import adminBook from '../controllers/admin/items/adminBook.js';
+import adminChapter from '../controllers/admin/items/adminChapter.js';
+import adminRefill from '../controllers/admin/items/adminRefill.js';
+import adminWithdraw from '../controllers/admin/items/adminWithdraw.js';
+import adminUser from '../controllers/admin/items/adminUser.js';
+import adminPurchase from '../controllers/admin/items/adminPurchase.js';
+import adminReport from '../controllers/admin/items/adminReport.js';
 
 const router = express.Router();
 
@@ -26,7 +33,16 @@ router.get('/withdraws', protect, admin, sort, adminWithdrawRequests);
 router.get('/paidbooks', protect, admin, sort, adminPaidBooks);
 router.get('/books', protect, admin, sort, adminBooks);
 router.get('/unlocks', protect, admin, sort, adminUnlocks);
+
 router.get('/bookearned/:id', protect, admin, earnedFromBook);
 router.get('/chapterearned/:id', protect, admin, earnedFromChapter);
+
+router.get('/book/:id', protect, admin, adminBook);
+router.get('/chapter/:id', protect, admin, adminChapter);
+router.get('/refill/:id', protect, admin, adminRefill);
+router.get('/withdraw/:id', protect, admin, adminWithdraw);
+router.get('/user/:id', protect, admin, adminUser);
+router.get('/unlock/:id', protect, admin, adminPurchase);
+router.get('/report/:id', protect, admin, adminReport);
 
 export default router;
