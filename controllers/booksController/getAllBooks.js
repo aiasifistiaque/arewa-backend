@@ -5,7 +5,7 @@ import { books } from '../../constants.js';
 const getAllBooks = asyncHandler(async (req, res) => {
 	//const { sort, page, perPage } = req.body;
 
-	let sort = books.sort;
+	let sort = 'views';
 	const option = req.query.sort;
 	const perPage = parseInt(req.query.perpage) || books.perpage;
 	const page = parseInt(req.query.page) - 1 || 0;
@@ -24,7 +24,7 @@ const getAllBooks = asyncHandler(async (req, res) => {
 	else if (option == 'oldest') sort = 'createdAt';
 	else if (option == 'nameAsc') sort = 'title';
 	else if (option == 'nameDsc') sort = '-title';
-	else if (option == 'popular') sort = '-likes';
+	else if (option == 'popular') sort = '-views';
 
 	let select = '';
 

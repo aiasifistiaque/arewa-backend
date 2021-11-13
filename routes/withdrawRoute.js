@@ -2,6 +2,7 @@ import express from 'express';
 import { protect } from '../middleware/auth.js';
 import withdrawRequest from '../controllers/usersController/withdrawRequest.js';
 import myWithdraws from '../controllers/usersController/myWithdraws.js';
+import { sort } from '../middleware/sort.js';
 
 /**Swagger doc
  * completed
@@ -13,7 +14,7 @@ import myWithdraws from '../controllers/usersController/myWithdraws.js';
 
 const router = express.Router();
 
-router.get('/', protect, myWithdraws);
+router.get('/', protect, sort, myWithdraws);
 router.post('/', protect, withdrawRequest);
 
 export default router;

@@ -20,6 +20,9 @@ const getBookById = asyncHandler(async (req, res) => {
 			viewer = 'self';
 		}
 
+		book.views = book.views ? book.views + 1 : 1;
+		await book.save();
+
 		res.status(200).json({ doc: book, viewer });
 	} catch (error) {
 		res.status(404).json({ message: `Book #${id} not found` });

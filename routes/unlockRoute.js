@@ -3,6 +3,7 @@ import { protect } from '../middleware/auth.js';
 import unlockChapter from '../controllers/unlock/unlockChapter.js';
 import myUnlocks from '../controllers/unlock/myUnlocks.js';
 import isUnlocked from '../controllers/unlock/isUnlocked.js';
+import { sort } from '../middleware/sort.js';
 
 /**Swagger doc
  * completed
@@ -14,7 +15,7 @@ import isUnlocked from '../controllers/unlock/isUnlocked.js';
 
 const router = express.Router();
 
-router.get('/', protect, myUnlocks);
+router.get('/', protect, sort, myUnlocks);
 router.get('/:id', protect, isUnlocked);
 router.post('/', protect, unlockChapter);
 

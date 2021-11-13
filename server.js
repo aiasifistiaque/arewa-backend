@@ -18,6 +18,8 @@ import withdrawRoute from './routes/withdrawRoute.js';
 import reportRoute from './routes/reportRoute.js';
 import uploadRoute from './routes/awsUpload.js';
 import unlockRoute from './routes/unlockRoute.js';
+import userRoute from './routes/userRoute.js';
+import adminRoute from './routes/adminRoute.js';
 
 dotenv.config();
 
@@ -106,6 +108,9 @@ app.use('/api/report', reportRoute);
 app.use('/api/withdraw', withdrawRoute);
 app.use('/api/unlock', unlockRoute);
 app.use('/api/upload', uploadRoute);
+app.use('/api/user', userRoute);
+app.use('/admin-api', adminRoute);
+
 // app.use('/api/review', reviewRoute);
 
 const __dirname = path.resolve();

@@ -2,6 +2,7 @@ import express from 'express';
 import { protect } from '../middleware/auth.js';
 import refillRequest from '../controllers/usersController/refillRequest.js';
 import myRefills from '../controllers/usersController/myRefills.js';
+import { sort } from '../middleware/sort.js';
 
 /**Swagger doc
  * completed
@@ -14,7 +15,7 @@ import myRefills from '../controllers/usersController/myRefills.js';
 const router = express.Router();
 
 router.post('/', protect, refillRequest);
-router.get('/', protect, myRefills);
+router.get('/', protect, sort, myRefills);
 
 export default router;
 
@@ -56,6 +57,29 @@ export default router;
  */
 
 /**
+ * Get My Refills
+ * @swagger
+ * definitions:
+ *   myRefills:
+ *         example: {
+ *                  "status": "success",
+ *                  "doc": [
+ *                           {
+ *                              "_id": "614aeeb99c6871649d9c5df5",
+ *                               "amount": 50,
+ *                               "type": "airtime",
+ *                               "status": "requested",
+ *                               "createdAt": "2021-09-22T08:52:09.481Z"
+ *                           }
+ *                          ],
+ *                  "count": 4,
+ *                  "pages": 4,
+ *                  "page": 1,
+ *                  "perpage": 1
+ *                  }
+ */
+
+/**
  * Route #1
  * @swagger
  * /refill:
@@ -71,7 +95,9 @@ export default router;
  *       500:
  *         description: String - error
  *       200:
- *         description: returns Object {status:String, doc:Array}
+ *         description: Returns all refills
+ *         schema:
+ *           $ref: "#/definitions/myRefills"
  */
 
 /**
