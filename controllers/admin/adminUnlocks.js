@@ -13,7 +13,7 @@ const adminUnlocks = asyncHandler(async (req, res) => {
 				{ path: 'user', select: 'name' },
 				{ path: 'book', select: 'title image' },
 				{ path: 'chapter', select: 'title' },
-				{ path: 'author', select: 'name' },
+				{ path: 'author', select: 'name username' },
 			])
 			.limit(perpage)
 			.skip(skip);

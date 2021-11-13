@@ -1,16 +1,16 @@
 import asyncHandler from 'express-async-handler';
-import Withdraw from '../../models/withdrawModel.js';
+import Book from '../../models/bookModel.js';
 
-const adminWithdrawRequests = asyncHandler(async (req, res) => {
+const adminBooks = asyncHandler(async (req, res) => {
 	const { page, sort, perpage, skip } = req;
 
 	try {
-		const count = await Withdraw.countDocuments();
+		const count = await Book.countDocuments();
 		const pages = Math.ceil(count / perpage);
-		const doc = await Withdraw.find()
-			.select('user amount type status createdAt')
-			.populate({ path: 'user', select: 'username email' })
+		const doc = await Book.find()
 			.sort(sort)
+			.select('-description')
+			.populate({ path: 'author', select: 'name username' })
 			.limit(perpage)
 			.skip(skip);
 		res
@@ -21,4 +21,4 @@ const adminWithdrawRequests = asyncHandler(async (req, res) => {
 	}
 });
 
-export default adminWithdrawRequests;
+export default adminBooks;

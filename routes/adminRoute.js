@@ -8,6 +8,8 @@ import adminPaidBooks from '../controllers/admin/adminPaidBooks.js';
 import adminUnlocks from '../controllers/admin/adminUnlocks.js';
 import earnedFromBook from '../controllers/booksController/earnedFromBook.js';
 import earnedFromChapter from '../controllers/booksController/earnedFromChapter.js';
+import adminGetReports from '../controllers/admin/adminGetReports.js';
+import adminBooks from '../controllers/admin/adminBooks.js';
 
 const router = express.Router();
 
@@ -17,10 +19,12 @@ const router = express.Router();
 // router.put('/publish', protect, publishBook);
 // router.put('/', protect, editBook);
 
+router.get('/reports', protect, admin, sort, adminGetReports);
 router.get('/users', protect, admin, sort, adminGetUsers);
 router.get('/refills', protect, admin, sort, adminRefillRequests);
 router.get('/withdraws', protect, admin, sort, adminWithdrawRequests);
 router.get('/paidbooks', protect, admin, sort, adminPaidBooks);
+router.get('/books', protect, admin, sort, adminBooks);
 router.get('/unlocks', protect, admin, sort, adminUnlocks);
 router.get('/bookearned/:id', protect, admin, earnedFromBook);
 router.get('/chapterearned/:id', protect, admin, earnedFromChapter);
