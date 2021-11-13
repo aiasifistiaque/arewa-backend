@@ -17,6 +17,9 @@ import adminWithdraw from '../controllers/admin/items/adminWithdraw.js';
 import adminUser from '../controllers/admin/items/adminUser.js';
 import adminPurchase from '../controllers/admin/items/adminPurchase.js';
 import adminReport from '../controllers/admin/items/adminReport.js';
+import adminBanBook from '../controllers/admin/updates/adminBanBook.js';
+import adminBanChapter from '../controllers/admin/updates/adminBanChapter.js';
+import adminBanUser from '../controllers/admin/updates/adminBanUser.js';
 
 const router = express.Router();
 
@@ -44,5 +47,9 @@ router.get('/withdraw/:id', protect, admin, adminWithdraw);
 router.get('/user/:id', protect, admin, adminUser);
 router.get('/unlock/:id', protect, admin, adminPurchase);
 router.get('/report/:id', protect, admin, adminReport);
+
+router.put('/banbook/:id', protect, admin, adminBanBook);
+router.put('/banchapter/:id', protect, admin, adminBanChapter);
+router.put('/banuser/:id', protect, admin, adminBanUser);
 
 export default router;

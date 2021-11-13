@@ -20,6 +20,8 @@ router.post('/login', async (req, res) => {
 	let user = await User.findOne({ email: req.body.email });
 	if (!user) return res.status(400).send('email id does not exist');
 
+	if (user.role == 'banned') return res.status(400).send('banned user');
+
 	const validPassword = await bcrypt.compare(req.body.password, user.password);
 	if (!validPassword) res.status(400).send('wrong password');
 

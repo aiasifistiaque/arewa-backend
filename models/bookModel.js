@@ -36,6 +36,10 @@ const bookSchema = new mongoose.Schema(
 			required: true,
 			default: 0,
 		},
+		choice: {
+			type: String,
+			default: 'none',
+		},
 		views: {
 			type: Number,
 			required: true,

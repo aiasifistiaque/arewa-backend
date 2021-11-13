@@ -16,7 +16,7 @@ const adminBook = asyncHandler(async (req, res) => {
 
 		if (!doc) {
 			return res
-				.status(600)
+				.status(500)
 				.json({ status: 'error', message: 'Book not found' });
 		}
 

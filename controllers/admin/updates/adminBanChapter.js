@@ -1,21 +1,20 @@
 import asyncHandler from 'express-async-handler';
-import Withdraw from '../../../models/withdrawModel.js';
+import Chapter from '../../../models/chapterModel.js';
 
-const adminWithdraw = asyncHandler(async (req, res) => {
+const adminBanChapter = asyncHandler(async (req, res) => {
 	const { id } = req.params;
 	try {
-		const doc = await Withdraw.findById(id).populate([
-			{
-				path: 'user',
-				select: 'name username email walletBalance earning',
-			},
-		]);
+		const item = await Chapter.findById(id);
 
-		if (!doc) {
+		if (!item) {
 			return res
 				.status(500)
 				.json({ status: 'error', message: 'Item not found' });
 		}
+
+		item.status = 'banned';
+
+		const doc = await item.save();
 
 		res.status(200).json({ doc, status: 'success' });
 	} catch (error) {
@@ -23,4 +22,4 @@ const adminWithdraw = asyncHandler(async (req, res) => {
 	}
 });
 
-export default adminWithdraw;
+export default adminBanChapter;
