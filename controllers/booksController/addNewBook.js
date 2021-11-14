@@ -28,6 +28,7 @@ const addNewBook = asyncHandler(async (req, res) => {
 			type,
 			rating,
 			platform,
+			earned: 0,
 		});
 
 		const addBook = await book.save();

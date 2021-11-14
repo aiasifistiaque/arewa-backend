@@ -20,6 +20,11 @@ import adminReport from '../controllers/admin/items/adminReport.js';
 import adminBanBook from '../controllers/admin/updates/adminBanBook.js';
 import adminBanChapter from '../controllers/admin/updates/adminBanChapter.js';
 import adminBanUser from '../controllers/admin/updates/adminBanUser.js';
+import adminChangeUserRole from '../controllers/admin/updates/adminChangeUserRole.js';
+import adminChangeWithdrawStatus from '../controllers/admin/updates/adminChangeWithdrawStatus.js';
+import adminChangeRefillStatus from '../controllers/admin/updates/adminChangeRefillStatus.js';
+import adminChangeReportStatus from '../controllers/admin/updates/adminChangeReportStatus.js';
+import adminBanComment from '../controllers/admin/updates/adminBanComment.js';
 
 const router = express.Router();
 
@@ -51,5 +56,11 @@ router.get('/report/:id', protect, admin, adminReport);
 router.put('/banbook/:id', protect, admin, adminBanBook);
 router.put('/banchapter/:id', protect, admin, adminBanChapter);
 router.put('/banuser/:id', protect, admin, adminBanUser);
+router.put('/bancomment/:id', protect, admin, adminBanComment);
+
+router.put('/userrole/:id', protect, admin, adminChangeUserRole);
+router.put('/withdraw/:id', protect, admin, adminChangeWithdrawStatus);
+router.put('/refill/:id', protect, admin, adminChangeRefillStatus);
+router.put('/report/:id', protect, admin, adminChangeReportStatus);
 
 export default router;

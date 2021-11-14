@@ -3,6 +3,7 @@ import asyncHandler from 'express-async-handler';
 import Unlock from '../../models/unlockModel.js';
 import { User } from '../../models/userModel.js';
 import { commission } from '../../constants.js';
+import Book from '../../models/bookModel.js';
 
 const unlockChapter = asyncHandler(async (req, res) => {
 	const { id } = req.body;
@@ -22,6 +23,11 @@ const unlockChapter = asyncHandler(async (req, res) => {
 			if (!chapter) {
 				return res.status(404).json({ message: 'Chapter not found' });
 			}
+
+			if (!chapter) {
+				return res.status(404).json({ message: 'Chapter not found' });
+			}
+
 			if (chapter.paid != true) {
 				return res.status(500).json({ message: 'Chapter is not for sale' });
 			}
@@ -29,6 +35,11 @@ const unlockChapter = asyncHandler(async (req, res) => {
 				return res
 					.status(500)
 					.json({ message: 'You can not buy your own book' });
+			}
+
+			const book = await Book.findById(chapter.book._id);
+			if (!book) {
+				return res.status(404).json({ message: 'Book not found' });
 			}
 
 			const buyer = await User.findById(userId);
@@ -43,7 +54,7 @@ const unlockChapter = asyncHandler(async (req, res) => {
 			} else {
 				const unlock = new Unlock({
 					chapter: id,
-					book: chapter.book._id,
+					book: book._id,
 					author: chapter.book.author,
 					price: chapter.price,
 					user: buyer._id,
@@ -53,8 +64,12 @@ const unlockChapter = asyncHandler(async (req, res) => {
 					const earning = chapter.price - (chapter.price * commission) / 100;
 					author.earning = author.earning + earning;
 					buyer.walletBalance = buyer.walletBalance - chapter.price;
+					chapter.earned = chapter.earned ? chapter.earned + earning : earning;
+					book.earned = book.earned ? book.earned + earning : earning;
 					await buyer.save();
 					await author.save();
+					await chapter.save();
+					await book.save();
 					return res.status(201).json({ doc: created });
 				} else {
 					res.status(500).json({ message: 'Could not be added' });

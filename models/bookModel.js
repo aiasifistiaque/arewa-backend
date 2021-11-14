@@ -40,6 +40,11 @@ const bookSchema = new mongoose.Schema(
 			type: String,
 			default: 'none',
 		},
+		earned: {
+			type: Number,
+			required: true,
+			default: 0,
+		},
 		views: {
 			type: Number,
 			required: true,

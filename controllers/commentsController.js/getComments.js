@@ -19,9 +19,12 @@ const getComments = asyncHandler(async (req, res) => {
 	else if (option == 'oldest') sort = 'createdAt';
 
 	try {
-		const count = await Comment.countDocuments(type);
+		const count = await Comment.countDocuments({
+			status: { $ne: 'banned' },
+			...type,
+		});
 		const totalPages = Math.ceil(count / perPage);
-		const data = await Comment.find(type)
+		const data = await Comment.find({ status: { $ne: 'banned' }, ...type })
 			.populate([
 				{ path: 'user', select: 'name username' },
 				{ path: 'book', select: 'title' },

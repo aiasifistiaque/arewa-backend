@@ -28,6 +28,15 @@ const chapterSchema = new mongoose.Schema(
 			required: true,
 			default: 0,
 		},
+		views: {
+			type: Number,
+			default: 0,
+		},
+		earned: {
+			type: Number,
+			required: true,
+			default: 0,
+		},
 		author: {
 			type: mongoose.Schema.Types.ObjectId,
 			ref: 'User',

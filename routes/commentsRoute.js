@@ -2,6 +2,7 @@ import express from 'express';
 import { protect } from '../middleware/auth.js';
 import addNewComment from '../controllers/commentsController.js/addNewComment.js';
 import getComments from '../controllers/commentsController.js/getComments.js';
+import getCommentById from '../controllers/commentsController.js/getCommentById.js';
 
 /**Swagger doc
  * completed
@@ -15,6 +16,8 @@ const router = express.Router();
 
 router.get('/', getComments);
 router.post('/', protect, addNewComment);
+router.get('/:id', getCommentById);
+
 // router.get('/:id', getBookById);
 
 export default router;

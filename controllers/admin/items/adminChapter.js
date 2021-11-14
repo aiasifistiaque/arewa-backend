@@ -9,9 +9,7 @@ const adminChapter = asyncHandler(async (req, res) => {
 				path: 'author',
 				select: 'name username email',
 			},
-			{
-				path: 'book',
-			},
+			{ path: 'book', populate: { path: 'author', select: 'username' } },
 		]);
 
 		if (!doc) {

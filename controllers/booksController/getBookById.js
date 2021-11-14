@@ -13,7 +13,7 @@ const getBookById = asyncHandler(async (req, res) => {
 			},
 			{
 				path: 'chapters',
-				select: '_id title paid status',
+				select: '_id title paid status earned',
 			},
 		]);
 		if (book.author._id == userId) {

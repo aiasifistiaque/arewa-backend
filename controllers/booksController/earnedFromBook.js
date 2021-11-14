@@ -15,14 +15,14 @@ const earnedFromBook = asyncHandler(async (req, res) => {
 
 		items.map(i => (earned += i.price));
 
-		res
-			.status(200)
-			.json({
-				status: 'success',
-				doc,
-				earned: (earned * 80) / 100,
-				sales: count,
-			});
+		const total = (earned * 80) / 100;
+
+		res.status(200).json({
+			status: 'success',
+			doc,
+			earned: total,
+			sales: count,
+		});
 	} catch (error) {
 		res.status(500).json({ message: error.message });
 	}

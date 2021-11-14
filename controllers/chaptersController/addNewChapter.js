@@ -15,6 +15,7 @@ const addNewChapter = asyncHandler(async (req, res) => {
 			author,
 			paid: paid || false,
 			price: price || 0,
+			earned: 0,
 		});
 
 		const findBook = await Book.findById(book);

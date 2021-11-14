@@ -5,7 +5,10 @@ import Report from '../../../models/reportModel.js';
 const adminReport = asyncHandler(async (req, res) => {
 	const { id } = req.params;
 	try {
-		const doc = await Report.findById(id);
+		const doc = await Report.findById(id).populate({
+			path: 'user',
+			select: 'username',
+		});
 
 		if (!doc) {
 			return res

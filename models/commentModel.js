@@ -25,6 +25,10 @@ const commentSchema = new mongoose.Schema(
 			required: true,
 			default: 0,
 		},
+		status: {
+			type: String,
+			default: 'posted',
+		},
 		dislikes: {
 			type: Number,
 			required: true,

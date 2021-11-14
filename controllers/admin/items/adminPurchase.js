@@ -11,6 +11,7 @@ const adminPurchase = asyncHandler(async (req, res) => {
 			},
 			{ path: 'book' },
 			{ path: 'chapter' },
+			{ path: 'author', select: 'username' },
 		]);
 
 		if (!doc) {

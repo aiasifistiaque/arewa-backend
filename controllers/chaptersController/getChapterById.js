@@ -17,6 +17,9 @@ const getChapterById = asyncHandler(async (req, res) => {
 			viewer = 'self';
 		}
 
+		chapter.views = chapter.views ? chapter.views + 1 : 1;
+		await chapter.save();
+
 		res.status(200).json({ doc: chapter, viewer });
 	} catch (error) {
 		res.status(404).send({ message: `Chapter #${id} not found` });
