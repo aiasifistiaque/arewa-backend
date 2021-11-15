@@ -25,6 +25,7 @@ import adminChangeWithdrawStatus from '../controllers/admin/updates/adminChangeW
 import adminChangeRefillStatus from '../controllers/admin/updates/adminChangeRefillStatus.js';
 import adminChangeReportStatus from '../controllers/admin/updates/adminChangeReportStatus.js';
 import adminBanComment from '../controllers/admin/updates/adminBanComment.js';
+import adminInfo from '../controllers/admin/adminInfo.js';
 
 const router = express.Router();
 
@@ -41,6 +42,7 @@ router.get('/withdraws', protect, admin, sort, adminWithdrawRequests);
 router.get('/paidbooks', protect, admin, sort, adminPaidBooks);
 router.get('/books', protect, admin, sort, adminBooks);
 router.get('/unlocks', protect, admin, sort, adminUnlocks);
+router.get('/basic', adminInfo);
 
 router.get('/bookearned/:id', protect, admin, earnedFromBook);
 router.get('/chapterearned/:id', protect, admin, earnedFromChapter);

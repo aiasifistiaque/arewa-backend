@@ -12,7 +12,7 @@ const adminChangeUserRole = asyncHandler(async (req, res) => {
 				.status(400)
 				.json({ status: 'error', message: error.details[0].message });
 
-		const item = await User.findById(id);
+		const item = await User.findById(id).select('-password');
 
 		if (!item) {
 			return res
