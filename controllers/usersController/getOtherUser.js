@@ -8,7 +8,7 @@ const getOtherUser = asyncHandler(async (req, res) => {
 	const { id } = req.params;
 
 	try {
-		const user = await User.findById(id).select(
+		const user = await User.findOne({ username: id }).select(
 			'_id name username description followers followings'
 		);
 
@@ -23,13 +23,13 @@ const getOtherUser = asyncHandler(async (req, res) => {
 			chapters: { $exists: true, $not: { $size: 0 } },
 		}).select('title image genre chapters');
 
-		const follow = await Follower.findOne({ user: from, follow: id });
+		const follow = await Follower.findOne({ user: from, following: user._id });
 
 		return res.status(200).json({
 			status: 'success',
 			doc: user,
 			books,
-			follow: follow ? 1 : 0,
+			follow: from == user._id ? 2 : follow ? 1 : 0,
 		});
 	} catch (e) {
 		return res.status(500).json({ status: 'error', message: e.message });

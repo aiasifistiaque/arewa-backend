@@ -3,7 +3,7 @@ import { User } from '../../models/userModel.js';
 import Follow from '../../models/followerModel.js';
 
 const followUser = asyncHandler(async (req, res) => {
-	const { id } = req.body;
+	const { id } = req.params;
 
 	try {
 		const follow = new Follow({
@@ -24,11 +24,13 @@ const followUser = asyncHandler(async (req, res) => {
 		if (req.user._id == id) {
 			return res
 				.status(500)
-				.json({ status: 'error', msg: 'you can not follow yourself' });
+				.json({ status: 'error', message: 'you can not follow yourself' });
 		}
 
 		if (!toFollow || !user) {
-			return res.status(404).json({ status: 'error', msg: 'user not found' });
+			return res
+				.status(404)
+				.json({ status: 'error', message: 'user not found' });
 		} else {
 			if (!ifFollowerExists) {
 				const newFollow = await follow.save();
@@ -48,11 +50,11 @@ const followUser = asyncHandler(async (req, res) => {
 			} else {
 				return res
 					.status(500)
-					.json({ status: 'error', msg: 'you already follow this user' });
+					.json({ status: 'error', message: 'you already follow this user' });
 			}
 		}
 	} catch (e) {
-		return res.status(500).json({ status: 'error', msg: e.message });
+		return res.status(500).json({ status: 'error', message: e.message });
 	}
 });
 

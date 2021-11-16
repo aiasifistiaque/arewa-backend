@@ -14,7 +14,7 @@ import unfollowUser from '../controllers/usersController/unfollowUser.js';
 
 const router = express.Router();
 
-router.post('/', protect, followUser);
+router.put('/:id', protect, followUser);
 router.get('/', protect, getFollowers);
 router.delete('/:id', protect, unfollowUser);
 
@@ -46,13 +46,13 @@ export default router;
 /**
  * Route #2
  * @swagger
- * /follow:
- *   post:
+ * /follow/{id}:
+ *   put:
  *     description: Follow another user [PROTECT]
  *     parameters:
  *       - name: id
  *         description: id of the user to follow
- *         in: req body
+ *         in: req params
  *         required: true
  *         type: String
  *       - name: token

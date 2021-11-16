@@ -1,10 +1,5 @@
 import express from 'express';
 import { protect } from '../middleware/auth.js';
-import getAllBooks from '../controllers/booksController/getAllBooks.js';
-import addNewBook from '../controllers/booksController/addNewBook.js';
-import getBookById from '../controllers/booksController/getBookById.js';
-import publishBook from '../controllers/booksController/publishBook.js';
-import editBook from '../controllers/booksController/editBook.js';
 import getOtherUser from '../controllers/usersController/getOtherUser.js';
 
 /**Swagger doc
@@ -26,7 +21,7 @@ router.get('/:id', protect, getOtherUser);
 export default router;
 
 /**
- * Add a refill request
+ * Find Other User
  * @swagger
  * definitions:
  *   otherUser:
