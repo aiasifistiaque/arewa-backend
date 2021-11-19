@@ -11,6 +11,10 @@ const userSchema = new mongoose.Schema(
 			maxlength: 50,
 			trim: true,
 		},
+		image: {
+			type: String,
+			default: '/book/pp.png',
+		},
 		username: {
 			type: String,
 			required: true,

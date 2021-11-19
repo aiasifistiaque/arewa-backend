@@ -6,12 +6,14 @@ import Joi from 'joi';
 import bcrypt from 'bcrypt';
 import { protect } from '../middleware/auth.js';
 import getSelf from '../controllers/usersController/getUser.js';
+import updateUser from '../controllers/usersController/updateUser.js';
 
 const router = express.Router();
 
 //const jwtPrivateKey = process.env.JWT_PRIVATE_KEY;
 
 router.get('/', protect, getSelf);
+router.put('/update', protect, updateUser);
 
 router.post('/login', async (req, res) => {
 	const { error } = loginValidate(req.body);

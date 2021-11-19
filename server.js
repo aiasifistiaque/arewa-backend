@@ -20,6 +20,7 @@ import uploadRoute from './routes/awsUpload.js';
 import unlockRoute from './routes/unlockRoute.js';
 import userRoute from './routes/userRoute.js';
 import adminRoute from './routes/adminRoute.js';
+import notificationRoute from './routes/notificationRoute.js';
 
 dotenv.config();
 
@@ -109,6 +110,7 @@ app.use('/api/withdraw', withdrawRoute);
 app.use('/api/unlock', unlockRoute);
 app.use('/api/upload', uploadRoute);
 app.use('/api/user', userRoute);
+app.use('/api/notifications', notificationRoute);
 app.use('/admin-api', adminRoute);
 
 // app.use('/api/review', reviewRoute);

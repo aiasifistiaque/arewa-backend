@@ -9,7 +9,7 @@ const getBookById = asyncHandler(async (req, res) => {
 		const book = await Book.findById(id).populate([
 			{
 				path: 'author',
-				select: '_id name username',
+				select: '_id name username image',
 			},
 			{
 				path: 'chapters',

@@ -1,7 +1,6 @@
 import mongoose from 'mongoose';
-import { trimEnd } from 'lodash';
 
-const refillSchema = new mongoose.Schema(
+const notificationSchema = new mongoose.Schema(
 	{
 		user: {
 			type: mongoose.Schema.Types.ObjectId,
@@ -18,6 +17,7 @@ const refillSchema = new mongoose.Schema(
 			trim: true,
 			lowercase: true,
 		},
+		image: { type: String, default: '/icon.png' },
 		target: {
 			type: String,
 			required: true,
@@ -31,6 +31,6 @@ const refillSchema = new mongoose.Schema(
 	}
 );
 
-const Refill = mongoose.model('Refill', refillSchema);
+const Notification = mongoose.model('Notification', notificationSchema);
 
-export default Refill;
+export default Notification;
