@@ -13,8 +13,6 @@ const addToLibrary = asyncHandler(async (req, res) => {
 			return res.status(404).json({ status: 'error', msg: 'Book Not Found' });
 		}
 
-		console.log(req.body);
-
 		const ifExist = await Library.findOne({
 			user: req.user._id,
 			book: book,

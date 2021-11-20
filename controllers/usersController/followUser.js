@@ -1,7 +1,7 @@
 import asyncHandler from 'express-async-handler';
 import { User } from '../../models/userModel.js';
 import Follow from '../../models/followerModel.js';
-import Notification from '../../models/notificationModel.js';
+import generateNotification from '../notificationController/generateNotification.js';
 
 const followUser = asyncHandler(async (req, res) => {
 	const { id } = req.params;
@@ -42,15 +42,13 @@ const followUser = asyncHandler(async (req, res) => {
 					await user.save();
 					await toFollow.save();
 				}
-				// const notification = new Notification({
-				// 	user: id,
-				// 	details: `${user.username} started following you`,
-				// 	image: user.image,
-				// 	type: 'follow',
-				// 	target: user._id,
-				// 	seen: false,
-				// });
-				// const j = await notification.save();
+				generateNotification({
+					user: id,
+					details: `${user.username} started following you`,
+					image: user.image,
+					type: 'follow',
+					target: user.username,
+				});
 
 				return res.status(201).json({
 					status: 'created',

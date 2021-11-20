@@ -29,7 +29,6 @@ const unfollowUser = asyncHandler(async (req, res) => {
 				const deletedEntry = await Follow.findByIdAndDelete(
 					ifFollowerExists._id
 				);
-				console.log(deletedEntry);
 				if (deletedEntry) {
 					toUnfollow.followers--;
 					user.followings--;

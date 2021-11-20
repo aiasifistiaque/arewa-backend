@@ -1,6 +1,7 @@
 import asyncHandler from 'express-async-handler';
 import Refill from '../../models/refillModel.js';
 import { User } from '../../models/userModel.js';
+import generateNotification from '../notificationController/generateNotification.js';
 
 const refillRequest = asyncHandler(async (req, res) => {
 	const { name, type, target, from, date, amount } = req.body;
@@ -25,6 +26,19 @@ const refillRequest = asyncHandler(async (req, res) => {
 			self.walletBalance = self.walletBalance + amount;
 			self.save();
 		}
+
+		const details =
+			type == 'paystack'
+				? `Your account was successfully refilled with ${amount} NGN`
+				: `Your account refill request for ${amount} NGN was received`;
+
+		generateNotification({
+			user,
+			details,
+			type: 'refill',
+			target: refillRequested._id,
+			image: '/icon.png',
+		});
 
 		return res.status(201).json({ status: 'created', doc: refillRequested });
 	} catch (e) {

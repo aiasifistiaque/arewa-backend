@@ -1,5 +1,4 @@
 import asyncHandler from 'express-async-handler';
-import Unlock from '../../models/unlockModel.js';
 import Notification from '../../models/notificationModel.js';
 
 const getAllNotifications = asyncHandler(async (req, res) => {

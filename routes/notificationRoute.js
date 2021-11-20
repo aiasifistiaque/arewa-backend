@@ -1,6 +1,7 @@
 import express from 'express';
 import { protect } from '../middleware/auth.js';
 import getAllNotifications from '../controllers/notificationController/getAllNotifications.js';
+import myNotifications from '../controllers/notificationController/myNotifications.js';
 import { sort } from '../middleware/sort.js';
 
 /**Swagger doc
@@ -13,7 +14,8 @@ import { sort } from '../middleware/sort.js';
 
 const router = express.Router();
 
-router.get('/', protect, sort, getAllNotifications);
+router.get('/', protect, sort, myNotifications);
+router.get('/all', protect, sort, getAllNotifications);
 
 export default router;
 

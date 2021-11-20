@@ -2,6 +2,7 @@ import asyncHandler from 'express-async-handler';
 import Withdraw from '../../models/withdrawModel.js';
 import Joi from 'joi';
 import { User } from '../../models/userModel.js';
+import generateNotification from '../notificationController/generateNotification.js';
 
 const withdrawRequest = asyncHandler(async (req, res) => {
 	const { error } = validate(req.body);
@@ -35,6 +36,14 @@ const withdrawRequest = asyncHandler(async (req, res) => {
 			const newWithdraw = await withdraw.save();
 			userAccount.earning = userAccount.earning - amount;
 			const updated = await userAccount.save();
+
+			generateNotification({
+				user,
+				details: `Your withdraw request of ${amount} NGN was received`,
+				type: 'withdraw',
+				target: newWithdraw._id,
+				image: '/icon.png',
+			});
 
 			return res
 				.status(201)

@@ -4,6 +4,7 @@ import Unlock from '../../models/unlockModel.js';
 import { User } from '../../models/userModel.js';
 import { commission } from '../../constants.js';
 import Book from '../../models/bookModel.js';
+import generateNotification from '../notificationController/generateNotification.js';
 
 const unlockChapter = asyncHandler(async (req, res) => {
 	const { id } = req.body;
@@ -18,7 +19,7 @@ const unlockChapter = asyncHandler(async (req, res) => {
 		} else {
 			const chapter = await Chapter.findById(id).populate({
 				path: 'book',
-				populate: { path: 'chapters', select: '_id author' },
+				populate: { path: 'chapters', select: '_id author title' },
 			});
 			if (!chapter) {
 				return res.status(404).json({ message: 'Chapter not found' });
@@ -42,8 +43,10 @@ const unlockChapter = asyncHandler(async (req, res) => {
 				return res.status(404).json({ message: 'Book not found' });
 			}
 
-			const buyer = await User.findById(userId);
-			const author = await User.findById(chapter.book.author);
+			const buyer = await User.findById(userId).select('-password');
+			const author = await User.findById(chapter.book.author).select(
+				'-password'
+			);
 
 			if (!buyer || !author) {
 				return res.status(404).json({ message: 'User not found' });
@@ -70,6 +73,15 @@ const unlockChapter = asyncHandler(async (req, res) => {
 					await author.save();
 					await chapter.save();
 					await book.save();
+
+					generateNotification({
+						user: author._id,
+						details: `${buyer.username} purchased Chapter: ${chapter.title} for ${chapter.price} NGN of your book ${book.title}`,
+						type: 'unlock',
+						target: chapter._id,
+						image: book.image,
+					});
+
 					return res.status(201).json({ doc: created });
 				} else {
 					res.status(500).json({ message: 'Could not be added' });
@@ -77,7 +89,7 @@ const unlockChapter = asyncHandler(async (req, res) => {
 			}
 		}
 	} catch (error) {
-		res.status(500).json({ message: 'Could not be added' });
+		res.status(500).json({ message: error.message });
 	}
 });
 
