@@ -28,13 +28,15 @@ router.get(
 				});
 				const created = await newUser.save();
 				console.log('New User created');
-				res.redirect(`${process.env.FRONTEND_DOMAIN}/register`);
+				res.redirect(
+					`${process.env.FRONTEND_DOMAIN}/auth/google?provider_id=${profile.id}&code=${req.query.code}`
+				);
 			} else {
 				console.log('User already Exists');
 				user.providerToken = req.query.code;
 				await user.save();
 				res.redirect(
-					`${process.env.FRONTEND_DOMAIN}/auth/social?provider_id=${profile.id}&code=${req.query.code}`
+					`${process.env.FRONTEND_DOMAIN}/auth/google?provider_id=${profile.id}&code=${req.query.code}`
 				);
 			}
 		} catch (e) {
