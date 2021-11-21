@@ -4,7 +4,7 @@ import { User } from '../models/userModel.js';
 
 const router = express.Router();
 
-router.get('/', passport.authenticate('facebook'));
+router.get('/', passport.authenticate('facebook', { scope: ['email'] }));
 router.get(
 	'/callback',
 	passport.authenticate('facebook', {
@@ -14,6 +14,7 @@ router.get(
 	async (req, res) => {
 		try {
 			const profile = req.federatedUser;
+			console.log(req.federatedUser);
 			const id = `facebook_${profile.id}`;
 			const user = await User.findOne({ providerId: id });
 			if (!user) {
@@ -24,7 +25,7 @@ router.get(
 					provider: 'facebook',
 					providerId: id,
 					//password: accessToken,
-					//email: profile.email ? profile.email : null,
+					email: profile?.emails[0]?.value || `${id}@facebook.com`,
 					providerToken: req.query.code,
 				});
 				const created = await newUser.save();

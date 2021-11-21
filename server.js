@@ -58,7 +58,7 @@ passport.use(
 			clientID: process.env.FB_APP_ID,
 			clientSecret: process.env.FB_APP_SECRET,
 			callbackURL: 'https://arewa-backend.herokuapp.com/auth/facebook/callback',
-			profileFields: ['email', 'name', 'displayName', 'photos'],
+			profileFields: ['emails', 'name', 'displayName', 'photos'],
 			enableProof: true,
 			state: true,
 		},
