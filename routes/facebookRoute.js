@@ -25,7 +25,7 @@ router.get(
 					provider: 'facebook',
 					providerId: id,
 					//password: accessToken,
-					email: profile?.emails[0]?.value || `${id}@facebook.com`,
+					email: `${profile.id}@facebook.com`,
 					providerToken: req.query.code,
 				});
 				const created = await newUser.save();
