@@ -16,28 +16,29 @@ router.get(
 		try {
 			const profile = req.federatedUser;
 			const user = await User.findOne({ providerId: profile.id });
+			const id = `google_${profile.id}`;
 			if (!user) {
 				const newUser = new User({
 					name: profile.displayName,
 					image: profile.photos[0]?.value,
 					username: profile.id,
-					provider: 'facebook',
-					providerId: profile.id,
+					provider: 'google',
+					providerId: id,
 					//password: accessToken,
-					email: profile.email ? profile.email : null,
+					//email: profile.email ? profile.email : null,
 					providerToken: req.query.code,
 				});
 				const created = await newUser.save();
 				console.log('New User created');
 				res.redirect(
-					`${process.env.FRONTEND_DOMAIN}/auth/google?provider_id=${profile.id}&code=${req.query.code}`
+					`${process.env.FRONTEND_DOMAIN}/auth/google?provider_id=${id}&code=${req.query.code}`
 				);
 			} else {
 				console.log('User already Exists');
 				user.providerToken = req.query.code;
 				await user.save();
 				res.redirect(
-					`${process.env.FRONTEND_DOMAIN}/auth/google?provider_id=${profile.id}&code=${req.query.code}`
+					`${process.env.FRONTEND_DOMAIN}/auth/google?provider_id=${id}&code=${req.query.code}`
 				);
 			}
 		} catch (e) {
