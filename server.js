@@ -24,7 +24,9 @@ import userRoute from './routes/userRoute.js';
 import adminRoute from './routes/adminRoute.js';
 import session from 'express-session';
 import facebookRoute from './routes/facebookRoute.js';
+import googleRoute from './routes/googleRoute.js';
 import notificationRoute from './routes/notificationRoute.js';
+import { OAuth2Strategy } from 'passport-google-oauth';
 
 dotenv.config();
 
@@ -66,6 +68,19 @@ passport.use(
 	)
 );
 
+passport.use(
+	new OAuth2Strategy(
+		{
+			clientID: process.env.GOOGLE_APP_ID,
+			clientSecret: process.env.GOOGLE_APP_SECRET,
+			callbackURL: '/auth/google/callback',
+		},
+		function (accessToken, refreshToken, profile, done) {
+			return done(null, profile);
+		}
+	)
+);
+
 const swaggerOptions = {
 	swaggerDefinition: {
 		info: {
@@ -90,15 +105,6 @@ app.use(function (req, res, next) {
 	next();
 });
 
-app.enable('trust proxy');
-// app.use((req, res, next) => {
-// 	if (req.secure) {
-// 		next();
-// 	} else {
-// 		res.redirect('https://' + req.headers.host + req.url);
-// 	}
-// });
-
 //routes
 app.use('/api/auth', authRoute);
 app.use('/api/books', bookRoute);
@@ -116,6 +122,8 @@ app.use('/api/user', userRoute);
 app.use('/api/notifications', notificationRoute);
 app.use('/admin-api', adminRoute);
 app.use('/auth/facebook', facebookRoute);
+app.use('/auth/google', googleRoute);
+
 // app.use('/api/review', reviewRoute);
 
 const __dirname = path.resolve();
