@@ -22,16 +22,17 @@ const addNewComment = asyncHandler(async (req, res) => {
 
 		const addComment = await newComment.save();
 
-		await generateNotification({
-			user: findBook.author,
-			details: `${findUser.username} commented on your post "${textShorten(
-				comment,
-				20
-			)}"`,
-			type: chapter ? 'chapterComment' : 'bookComment',
-			target: chapter ? chapter : book,
-			image: findUser.image || '/icon.png',
-		});
+		user != findBook.author &&
+			(await generateNotification({
+				user: findBook.author,
+				details: `${findUser.username} commented on your post "${textShorten(
+					comment,
+					20
+				)}"`,
+				type: chapter ? 'chapterComment' : 'bookComment',
+				target: chapter ? chapter : book,
+				image: findUser.image || '/icon.png',
+			}));
 
 		res.status(201).json({ status: 'created', doc: addComment });
 	} catch (e) {

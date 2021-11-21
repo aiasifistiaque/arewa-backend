@@ -26,7 +26,7 @@ const getComments = asyncHandler(async (req, res) => {
 		const totalPages = Math.ceil(count / perPage);
 		const data = await Comment.find({ status: { $ne: 'banned' }, ...type })
 			.populate([
-				{ path: 'user', select: 'name username' },
+				{ path: 'user', select: 'name username image' },
 				{ path: 'book', select: 'title' },
 				{ path: 'chapter', select: 'title' },
 			])

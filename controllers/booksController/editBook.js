@@ -4,6 +4,7 @@ import Book from '../../models/bookModel.js';
 const editBook = asyncHandler(async (req, res) => {
 	const user = req.user._id;
 	const {
+		image,
 		title,
 		description,
 		genre,
@@ -26,6 +27,7 @@ const editBook = asyncHandler(async (req, res) => {
 				});
 			}
 
+			book.image = image;
 			book.title = title;
 			book.description = description;
 			book.genre = genre;

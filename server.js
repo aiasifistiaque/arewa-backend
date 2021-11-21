@@ -5,6 +5,8 @@ import morgan from 'morgan';
 import cors from 'cors';
 import path from 'path';
 import colors from 'colors';
+import passport from 'passport';
+import FacebookStrategy from 'passport-facebook';
 import swaggerJsDoc from 'swagger-jsdoc';
 import swaggerUI from 'swagger-ui-express';
 import authRoute from './routes/authRoute.js';
@@ -20,6 +22,8 @@ import uploadRoute from './routes/awsUpload.js';
 import unlockRoute from './routes/unlockRoute.js';
 import userRoute from './routes/userRoute.js';
 import adminRoute from './routes/adminRoute.js';
+import session from 'express-session';
+import facebookRoute from './routes/facebookRoute.js';
 import notificationRoute from './routes/notificationRoute.js';
 
 dotenv.config();
@@ -33,39 +37,34 @@ if (process.env.NODE_ENV === 'development') {
 	app.use(morgan('dev'));
 }
 
-//configuring the AWS environment
-// AWS.config.update({
-// 	region: process.env.AWS_REGION,
-// 	accessKeyId: process.env.AWS_ACCESS_KEY,
-// 	secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-// 	signatureVersion: 'v4',
-// });
+app.use(session({ secret: 'secret' }));
 
-// const s3 = new AWS.S3();
-// const filePath = './data/book.jpg';
+app.use(passport.initialize());
+app.use(passport.session());
 
-//configuring parameters
-// const fileStream = fs.createReadStream(filePath);
-// const fileName = `images/${Date.now()}_${path.basename(filePath)}`;
+passport.serializeUser(function (user, done) {
+	done(null, user);
+});
 
-// var params = {
-// 	Bucket: process.env.S3_BUCKET_NAME,
-// 	Body: fileStream,
-// 	Key: fileName,
-// };
+passport.deserializeUser(function (user, done) {
+	done(null, user);
+});
 
-// s3.upload(params, function (err, data) {
-// 	//handle error
-// 	if (err) {
-// 		console.log('Error', err);
-// 	}
-
-// 	//success
-// 	if (data) {
-// 		console.log(data);
-// 		console.log('Uploaded in:', data.Location);
-// 	}
-// });
+passport.use(
+	new FacebookStrategy.Strategy(
+		{
+			clientID: process.env.FB_APP_ID,
+			clientSecret: process.env.FB_APP_SECRET,
+			callbackURL: '/auth/facebook/callback',
+			profileFields: ['email', 'name', 'displayName', 'photos'],
+			enableProof: true,
+			state: true,
+		},
+		function (accessToken, refreshToken, profile, cb) {
+			return cb(null, profile);
+		}
+	)
+);
 
 const swaggerOptions = {
 	swaggerDefinition: {
@@ -80,11 +79,6 @@ const swaggerOptions = {
 const swaggerDocs = swaggerJsDoc(swaggerOptions);
 app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocs));
 
-const corsOptions = {
-	origin: '*',
-	credentials: true, //access-control-allow-credentials:true
-	optionSuccessStatus: 200,
-};
 app.use(cors());
 
 app.use(function (req, res, next) {
@@ -112,7 +106,7 @@ app.use('/api/upload', uploadRoute);
 app.use('/api/user', userRoute);
 app.use('/api/notifications', notificationRoute);
 app.use('/admin-api', adminRoute);
-
+app.use('/auth/facebook', facebookRoute);
 // app.use('/api/review', reviewRoute);
 
 const __dirname = path.resolve();

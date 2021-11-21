@@ -38,12 +38,14 @@ const userSchema = new mongoose.Schema(
 		},
 		email: {
 			type: String,
-			required: true,
 			minlength: 5,
 			maxlength: 255,
 			unique: true,
 			trim: true,
 		},
+		provider: { type: String },
+		providerId: { type: String },
+		providerToken: { type: String },
 
 		followers: {
 			type: Number,
@@ -59,7 +61,7 @@ const userSchema = new mongoose.Schema(
 		},
 
 		role: { type: String, default: 'user' },
-		password: { type: String, required: true, minlength: 5, maxlength: 1024 },
+		password: { type: String, minlength: 5, maxlength: 1024 },
 	},
 	{
 		timestamps: true,
