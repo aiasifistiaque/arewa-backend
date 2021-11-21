@@ -37,6 +37,7 @@ router.get(
 				);
 			} else {
 				console.log('User already Exists');
+				user.providerId = id;
 				user.providerToken = req.query.code;
 				await user.save();
 				res.redirect(

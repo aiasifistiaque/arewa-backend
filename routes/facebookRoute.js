@@ -36,6 +36,8 @@ router.get(
 			} else {
 				console.log('User already Exists');
 				user.providerToken = req.query.code;
+				user.providerId = id;
+
 				await user.save();
 				res.redirect(
 					`${process.env.FRONTEND_DOMAIN}/auth/facebook?provider_id=${id}&code=${req.query.code}`
