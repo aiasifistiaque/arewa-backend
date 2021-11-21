@@ -12,6 +12,7 @@ router.get(
 		failureRedirect: `${process.env.FRONTEND_DOMAIN}/login`,
 	}),
 	async (req, res) => {
+		console.log(req.federatedUser);
 		try {
 			const profile = req.federatedUser;
 			const user = await User.findOne({ providerId: profile.id });
