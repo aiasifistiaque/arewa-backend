@@ -74,7 +74,10 @@ passport.use(
 			clientID: process.env.GOOGLE_APP_ID,
 			clientSecret: process.env.GOOGLE_APP_SECRET,
 			callbackURL: `https://arewa-backend.herokuapp.com/auth/google/callback`,
-			scope: ['profile'],
+			scope: [
+				'https://www.googleapis.com/auth/userinfo.profile',
+				'https://www.googleapis.com/auth/userinfo.email',
+			],
 			state: true,
 		},
 		function (accessToken, refreshToken, profile, done) {

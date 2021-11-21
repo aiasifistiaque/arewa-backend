@@ -25,7 +25,7 @@ router.get(
 					provider: 'google',
 					providerId: id,
 					//password: accessToken,
-					//email: profile.email ? profile.email : null,
+					email: profile.emails[0].value,
 					providerToken: req.query.code,
 				});
 				const created = await newUser.save();
