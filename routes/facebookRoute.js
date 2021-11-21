@@ -14,8 +14,8 @@ router.get(
 	async (req, res) => {
 		try {
 			const profile = req.federatedUser;
-			const user = await User.findOne({ providerId: profile.id });
 			const id = `facebook_${profile.id}`;
+			const user = await User.findOne({ providerId: id });
 			if (!user) {
 				const newUser = new User({
 					name: profile.displayName,

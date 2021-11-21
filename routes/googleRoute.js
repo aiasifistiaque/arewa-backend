@@ -15,8 +15,8 @@ router.get(
 		console.log(req.federatedUser);
 		try {
 			const profile = req.federatedUser;
-			const user = await User.findOne({ providerId: profile.id });
 			const id = `google_${profile.id}`;
+			const user = await User.findOne({ providerId: id });
 			if (!user) {
 				const newUser = new User({
 					name: profile.displayName,

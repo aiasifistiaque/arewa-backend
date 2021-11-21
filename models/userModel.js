@@ -38,7 +38,6 @@ const userSchema = new mongoose.Schema(
 		},
 		email: {
 			type: String,
-			minlength: 5,
 			maxlength: 255,
 			unique: true,
 			trim: true,
