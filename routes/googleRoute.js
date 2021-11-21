@@ -4,12 +4,7 @@ import { User } from '../models/userModel.js';
 
 const router = express.Router();
 
-router.get(
-	'/',
-	passport.authenticate('google', {
-		scope: ['https://www.googleapis.com/auth/plus.login'],
-	})
-);
+router.get('/', passport.authenticate('google'));
 router.get(
 	'/callback',
 	passport.authenticate('google', {

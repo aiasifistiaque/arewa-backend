@@ -26,7 +26,7 @@ import session from 'express-session';
 import facebookRoute from './routes/facebookRoute.js';
 import googleRoute from './routes/googleRoute.js';
 import notificationRoute from './routes/notificationRoute.js';
-import { OAuth2Strategy } from 'passport-google-oauth';
+import Strategy from 'passport-google-oauth20';
 
 dotenv.config();
 
@@ -69,11 +69,13 @@ passport.use(
 );
 
 passport.use(
-	new OAuth2Strategy(
+	new Strategy(
 		{
 			clientID: process.env.GOOGLE_APP_ID,
 			clientSecret: process.env.GOOGLE_APP_SECRET,
-			callbackURL: '/auth/google/callback',
+			callbackURL: `${process.env.BACKEND_DOMAIN}/auth/google/callback`,
+			scope: ['profile'],
+			state: true,
 		},
 		function (accessToken, refreshToken, profile, done) {
 			return done(null, profile);
