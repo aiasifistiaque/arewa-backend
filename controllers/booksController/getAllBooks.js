@@ -30,7 +30,7 @@ const getAllBooks = asyncHandler(async (req, res) => {
 
 	let populate = [
 		{ path: 'chapters', select: 'title' },
-		{ path: 'author', select: '_id name' },
+		{ path: 'author', select: '_id name username' },
 	];
 
 	if (req.query.type == 'home') {
@@ -40,9 +40,9 @@ const getAllBooks = asyncHandler(async (req, res) => {
 	}
 
 	try {
-		const count = await Book.countDocuments(genre);
+		const count = await Book.countDocuments({ status: 'published', ...genre });
 		const totalPages = Math.ceil(count / perPage);
-		const books = await Book.find(genre)
+		const books = await Book.find({ status: 'published', ...genre })
 			.select(select)
 			.populate(populate)
 			.sort(sort)

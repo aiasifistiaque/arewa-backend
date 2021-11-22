@@ -18,6 +18,7 @@ const getBookById = asyncHandler(async (req, res) => {
 			{
 				path: 'chapters',
 				select: '_id title paid status earned',
+				match: { status: { $ne: 'deleted' } },
 			},
 		]);
 		if (book.author._id == userId) {

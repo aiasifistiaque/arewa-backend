@@ -22,7 +22,7 @@ const getLibrary = asyncHandler(async (req, res) => {
 			.populate([
 				{
 					path: 'book',
-					select: '_id title image author tags genre language rating',
+					select: '_id title image author tags genre language rating status',
 					populate: [
 						{ path: 'author', select: 'name' },
 						{ path: 'chapters', select: 'title' },
@@ -34,7 +34,17 @@ const getLibrary = asyncHandler(async (req, res) => {
 			.skip(page * perPage)
 			.limit(perPage);
 
-		res.status(200).json({ doc, count, page: page + 1, perPage, pages });
+		var newDoc = doc.filter(function (el) {
+			return el.book.status == 'published';
+		});
+
+		res.status(200).json({
+			doc: newDoc,
+			count,
+			page: page + 1,
+			perPage,
+			pages,
+		});
 	} catch (e) {
 		return res.status(500).json({ message: 'There was an error' });
 	}

@@ -10,9 +10,15 @@ const myBooks = asyncHandler(async (req, res) => {
 	const page = parseInt(req.query.page) - 1 || 0;
 
 	try {
-		const count = await Book.countDocuments(options);
+		const count = await Book.countDocuments({
+			status: { $nin: ['banned', 'deleted'] },
+			...options,
+		});
 		const pages = Math.ceil(count / perPage);
-		const doc = await Book.find(options)
+		const doc = await Book.find({
+			status: { $nin: ['banned', 'deleted'] },
+			...options,
+		})
 			.sort('-createdAt')
 			.select('-description -author -tags -chapters -likes')
 			.skip(page * perPage)
