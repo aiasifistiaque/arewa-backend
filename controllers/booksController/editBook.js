@@ -14,6 +14,7 @@ const editBook = asyncHandler(async (req, res) => {
 		rating,
 		tags,
 		platform,
+		status,
 	} = req.body;
 
 	try {
@@ -36,6 +37,7 @@ const editBook = asyncHandler(async (req, res) => {
 			book.platform = platform;
 			book.type = type;
 			book.tags = tags;
+			book.status = status;
 
 			const saved = await book.save();
 			res.status(200).json({ status: 'created', doc: saved });

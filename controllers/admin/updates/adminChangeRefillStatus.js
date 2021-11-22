@@ -2,6 +2,7 @@ import asyncHandler from 'express-async-handler';
 import Joi from 'joi';
 import Refill from '../../../models/refillModel.js';
 import { User } from '../../../models/userModel.js';
+import generateNotification from '../../notificationController/generateNotification.js';
 
 const adminChangeRefillStatus = asyncHandler(async (req, res) => {
 	const { id } = req.params;
@@ -33,6 +34,13 @@ const adminChangeRefillStatus = asyncHandler(async (req, res) => {
 		if (status == 'completed') {
 			user.walletBalance = user.walletBalance + item.amount;
 			await user.save();
+			generateNotification({
+				user: user._id,
+				details: `Your account has been successfully refilled with ${item.amount} NGN. Transaction id for this transaction: ${item._id}, fund received through ${item.type} transfer from ${item.target}.`,
+				image: '/icon.png',
+				type: 'refill',
+				target: item._id,
+			});
 		}
 
 		item.status = status;

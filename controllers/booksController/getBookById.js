@@ -6,6 +6,10 @@ const getBookById = asyncHandler(async (req, res) => {
 	const userId = req.user._id;
 	let viewer = 'reader';
 	try {
+		const toCount = await Book.findById(id)
+			.select('chapters')
+			.populate({ path: 'chapters', select: 'description' });
+
 		const book = await Book.findById(id).populate([
 			{
 				path: 'author',
@@ -20,12 +24,18 @@ const getBookById = asyncHandler(async (req, res) => {
 			viewer = 'self';
 		}
 
+		let words = 0;
+		if (toCount.chapters != null) {
+			toCount.chapters.map(chapter => {
+				words = words + chapter.description.length;
+			});
+		}
 		book.views = book.views ? book.views + 1 : 1;
 		await book.save();
 
-		res.status(200).json({ doc: book, viewer });
+		res.status(200).json({ doc: book, viewer, words });
 	} catch (error) {
-		res.status(404).json({ message: `Book #${id} not found` });
+		res.status(404).json({ message: error.message });
 	}
 });
 

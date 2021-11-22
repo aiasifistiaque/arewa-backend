@@ -14,7 +14,11 @@ const getAllBooks = asyncHandler(async (req, res) => {
 		? { title: { $regex: req.query.search, $options: 'i' } }
 		: req.query.genre && req.query.paid
 		? { genre: req.query.genre, type: req.query.paid }
-		: { genre: req.query.genre };
+		: req.query.genre
+		? { genre: req.query.genre }
+		: req.query.paid
+		? { type: req.query.paid }
+		: {};
 
 	if (option == 'newest') sort = '-createdAt';
 	else if (option == 'oldest') sort = 'createdAt';
