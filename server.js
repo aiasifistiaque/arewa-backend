@@ -61,6 +61,7 @@ passport.use(
 			profileFields: ['emails', 'name', 'displayName', 'photos'],
 			enableProof: true,
 			state: true,
+			session: false,
 		},
 		function (accessToken, refreshToken, profile, cb) {
 			return cb(null, profile);
