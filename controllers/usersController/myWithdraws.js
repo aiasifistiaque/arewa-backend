@@ -12,7 +12,7 @@ const myWithdraws = asyncHandler(async (req, res) => {
 		const count = await Withdraw.countDocuments({ user, ...options });
 		const pages = Math.ceil(count / perpage);
 		const withdraws = await Withdraw.find({ user, ...options })
-			.select('amount status')
+			.select('amount status createdAt ')
 			.sort(sort)
 			.limit(perpage)
 			.skip(skip);
