@@ -7,6 +7,8 @@ import bcrypt from 'bcrypt';
 import { protect } from '../middleware/auth.js';
 import getSelf from '../controllers/usersController/getUser.js';
 import updateUser from '../controllers/usersController/updateUser.js';
+import sendOtp from '../controllers/auth/sendOtp.js';
+import resetPassword from '../controllers/auth/resetPassword.js';
 
 const router = express.Router();
 
@@ -14,6 +16,8 @@ const router = express.Router();
 
 router.get('/', protect, getSelf);
 router.put('/update', protect, updateUser);
+router.post('/sendotp', sendOtp);
+router.post('/resetpassword', resetPassword);
 
 router.post('/login', async (req, res) => {
 	const { error } = loginValidate(req.body);
