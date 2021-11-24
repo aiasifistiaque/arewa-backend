@@ -53,7 +53,9 @@ const unlockChapter = asyncHandler(async (req, res) => {
 			}
 
 			if (buyer && buyer.walletBalance < chapter.price) {
-				return res.status(500).json({ message: 'Not enough balance' });
+				return res
+					.status(500)
+					.json({ message: 'Not enough balance, please Refill' });
 			} else {
 				const unlock = new Unlock({
 					chapter: id,
