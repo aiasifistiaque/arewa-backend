@@ -54,7 +54,8 @@ const validate = item => {
 				'successful',
 				'cancelled',
 				'rejected',
-				'refunded'
+				'refunded',
+				'reported'
 			)
 			.required(),
 	});

@@ -31,6 +31,33 @@ const adminSchema = new mongoose.Schema(
 			required: true,
 			dafault: 25,
 		},
+		coverOne: {
+			type: String,
+			default: 'slider1.jpg',
+		},
+		coverOneRedirect: {
+			type: mongoose.Schema.Types.ObjectId,
+			ref: 'Book',
+			default: '619380b890bd280f8fd4cd29',
+		},
+		coverTwo: {
+			type: String,
+			default: 'slider1.jpg',
+		},
+		coverTwoRedirect: {
+			type: mongoose.Schema.Types.ObjectId,
+			ref: 'Book',
+			default: '619380b890bd280f8fd4cd29',
+		},
+		coverThree: {
+			type: String,
+			default: 'slider1.jpg',
+		},
+		coverThreeRedirect: {
+			type: mongoose.Schema.Types.ObjectId,
+			ref: 'Book',
+			default: '619380b890bd280f8fd4cd29',
+		},
 	},
 	{
 		timestamps: true,

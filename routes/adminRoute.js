@@ -26,6 +26,7 @@ import adminChangeRefillStatus from '../controllers/admin/updates/adminChangeRef
 import adminChangeReportStatus from '../controllers/admin/updates/adminChangeReportStatus.js';
 import adminBanComment from '../controllers/admin/updates/adminBanComment.js';
 import adminInfo from '../controllers/admin/adminInfo.js';
+import adminUpdateInfo from '../controllers/admin/updates/adminUpdateInfo.js';
 
 const router = express.Router();
 
@@ -64,5 +65,7 @@ router.put('/userrole/:id', protect, admin, adminChangeUserRole);
 router.put('/withdraw/:id', protect, admin, adminChangeWithdrawStatus);
 router.put('/refill/:id', protect, admin, adminChangeRefillStatus);
 router.put('/report/:id', protect, admin, adminChangeReportStatus);
+
+router.put('/updateinfo', protect, admin, adminUpdateInfo);
 
 export default router;
