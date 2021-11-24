@@ -1,10 +1,17 @@
 import asyncHandler from 'express-async-handler';
 import { User } from '../../models/userModel.js';
+import Joi from 'joi';
 
 const updateUser = asyncHandler(async (req, res) => {
 	const id = req.user._id;
 	const { image, name, description, email, username } = req.body;
 	try {
+		const { error } = validate(req.body);
+		if (error)
+			return res
+				.status(400)
+				.json({ status: 'error', message: error.details[0].message });
+
 		const user = await User.findById(id).select('-password');
 		if (image) user.image = image;
 		if (name) user.name = name;
@@ -18,5 +25,16 @@ const updateUser = asyncHandler(async (req, res) => {
 		return res.status(500).json({ status: 'error', message: e.message });
 	}
 });
+
+function validate(user) {
+	const schema = Joi.object({
+		name: Joi.string().min(2).max(50),
+		email: Joi.string().min(5).max(255).email(),
+		username: Joi.string().alphanum().min(4).max(255),
+		password: Joi.string().min(5).max(255),
+		role: Joi.string(),
+	});
+	return schema.validate(user);
+}
 
 export default updateUser;

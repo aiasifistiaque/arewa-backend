@@ -21,6 +21,7 @@ const userSchema = new mongoose.Schema(
 			minlength: 4,
 			unique: true,
 			trim: true,
+			lowercase: true,
 		},
 		description: {
 			type: String,
@@ -81,7 +82,7 @@ export function validate(user) {
 	const schema = Joi.object({
 		name: Joi.string().min(2).max(50).required(),
 		email: Joi.string().min(5).max(255).required().email(),
-		username: Joi.string().min(4).max(255).required(),
+		username: Joi.string().alphanum().min(4).max(255).required(),
 		password: Joi.string().min(5).max(255).required(),
 		role: Joi.string(),
 	});
