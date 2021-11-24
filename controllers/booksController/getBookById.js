@@ -1,5 +1,6 @@
 import Book from '../../models/bookModel.js';
 import asyncHandler from 'express-async-handler';
+import countWords from '../../util/countWords.js';
 
 const getBookById = asyncHandler(async (req, res) => {
 	const { id } = req.params;
@@ -28,7 +29,7 @@ const getBookById = asyncHandler(async (req, res) => {
 		let words = 0;
 		if (toCount.chapters != null) {
 			toCount.chapters.map(chapter => {
-				words = words + chapter.description.length;
+				words = words + countWords(chapter.description);
 			});
 		}
 		book.views = book.views ? book.views + 1 : 1;
