@@ -2,7 +2,6 @@ import Chapter from '../../models/chapterModel.js';
 import asyncHandler from 'express-async-handler';
 import Unlock from '../../models/unlockModel.js';
 import { User } from '../../models/userModel.js';
-import { commission } from '../../constants.js';
 import Book from '../../models/bookModel.js';
 import generateNotification from '../notificationController/generateNotification.js';
 
@@ -66,7 +65,8 @@ const unlockChapter = asyncHandler(async (req, res) => {
 				});
 				const created = await unlock.save();
 				if (created) {
-					const earning = chapter.price - (chapter.price * commission) / 100;
+					const earning =
+						chapter.price - (chapter.price * process.env.COMMISSION) / 100;
 					author.earning = author.earning + earning;
 					buyer.walletBalance = buyer.walletBalance - chapter.price;
 					chapter.earned = chapter.earned ? chapter.earned + earning : earning;
@@ -81,7 +81,7 @@ const unlockChapter = asyncHandler(async (req, res) => {
 						details: `${buyer.username} purchased Chapter: ${chapter.title} for ${chapter.price} NGN of your book ${book.title}`,
 						type: 'unlock',
 						target: chapter._id,
-						image: book.image,
+						image: buyer.image,
 					});
 
 					return res.status(201).json({ doc: created });

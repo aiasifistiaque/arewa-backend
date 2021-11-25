@@ -12,6 +12,14 @@ const updateUser = asyncHandler(async (req, res) => {
 				.status(400)
 				.json({ status: 'error', message: error.details[0].message });
 
+		const exists = await User.findOne({
+			username,
+		});
+
+		if (exists && exists._id != id) {
+			return res.status(500).send({ message: 'username already taken' });
+		}
+
 		const user = await User.findById(id).select('-password');
 		if (image) user.image = image;
 		if (name) user.name = name;
@@ -33,6 +41,8 @@ function validate(user) {
 		username: Joi.string().alphanum().min(4).max(255),
 		password: Joi.string().min(5).max(255),
 		role: Joi.string(),
+		image: Joi.string(),
+		description: Joi.string(),
 	});
 	return schema.validate(user);
 }

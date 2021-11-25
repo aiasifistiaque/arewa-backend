@@ -15,7 +15,7 @@ const earnedFromBook = asyncHandler(async (req, res) => {
 
 		items.map(i => (earned += i.price));
 
-		const total = (earned * 80) / 100;
+		const total = (earned * (100 - process.env.COMMISSION)) / 100;
 
 		res.status(200).json({
 			status: 'success',
