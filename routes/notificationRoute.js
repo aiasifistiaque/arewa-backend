@@ -4,6 +4,8 @@ import getAllNotifications from '../controllers/notificationController/getAllNot
 import myNotifications from '../controllers/notificationController/myNotifications.js';
 import { sort } from '../middleware/sort.js';
 import newNotifications from '../controllers/notificationController/newNotifications.js';
+import addPushToken from '../controllers/notificationController/addPushToken.js';
+import removePushToken from '../controllers/notificationController/removePushToken.js';
 
 /**Swagger doc
  * completed
@@ -18,6 +20,8 @@ const router = express.Router();
 router.get('/', protect, sort, myNotifications);
 router.get('/new', protect, newNotifications);
 router.get('/all', protect, sort, getAllNotifications);
+router.put('/addpushtoken', protect, addPushToken);
+router.delete('/addpushtoken', protect, removePushToken);
 
 export default router;
 

@@ -46,6 +46,7 @@ const userSchema = new mongoose.Schema(
 		provider: { type: String },
 		providerId: { type: String },
 		providerToken: { type: String },
+		expoToken: { type: String },
 
 		followers: {
 			type: Number,
