@@ -27,6 +27,8 @@ import facebookRoute from './routes/facebookRoute.js';
 import googleRoute from './routes/googleRoute.js';
 import notificationRoute from './routes/notificationRoute.js';
 import basicRoute from './routes/basicRoute.js';
+import infoRoute from './routes/infoRoute.js';
+
 import Strategy from 'passport-google-oauth20';
 
 dotenv.config();
@@ -127,6 +129,7 @@ app.use('/api/unlock', unlockRoute);
 app.use('/api/upload', uploadRoute);
 app.use('/api/user', userRoute);
 app.use('/api/basic', basicRoute);
+app.use('/api/info', infoRoute);
 app.use('/api/notifications', notificationRoute);
 app.use('/admin-api', adminRoute);
 app.use('/auth/facebook', facebookRoute);
