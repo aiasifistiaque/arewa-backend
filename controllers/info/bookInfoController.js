@@ -12,11 +12,12 @@ const bookInfoController = asyncHandler(async (req, res) => {
 				},
 			]);
 
-		if (!book) return res.status(404).json({ message: error.message });
+		if (!book)
+			return res.status(404).json({ status: 'error', message: error.message });
 
-		res.status(200).json({ doc: book });
+		res.status(200).json({ status: 'success', doc: book });
 	} catch (error) {
-		res.status(404).json({ message: error.message });
+		res.status(404).json({ status: 'error', message: error.message });
 	}
 });
 
