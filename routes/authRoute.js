@@ -11,6 +11,7 @@ import sendOtp from '../controllers/auth/sendOtp.js';
 import resetPassword from '../controllers/auth/resetPassword.js';
 import changePassword from '../controllers/auth/changePassword.js';
 import googleAppAuth from '../controllers/auth/googleAppAuth.js';
+import facebookAppAuth from '../controllers/auth/facebookAppAuth.js';
 
 const router = express.Router();
 
@@ -22,6 +23,7 @@ router.post('/sendotp', sendOtp);
 router.post('/resetpassword', resetPassword);
 router.post('/changepassword', protect, changePassword);
 router.post('/googleappauth', googleAppAuth);
+router.post('/facebookappauth', facebookAppAuth);
 
 router.post('/login', async (req, res) => {
 	const { error } = loginValidate(req.body);
