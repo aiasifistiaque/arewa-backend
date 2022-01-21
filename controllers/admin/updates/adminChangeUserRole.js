@@ -34,6 +34,7 @@ const adminChangeUserRole = asyncHandler(async (req, res) => {
 const validate = item => {
 	const schema = Joi.object({
 		role: Joi.string().valid('user', 'admin', 'banned').required(),
+		badge: Joi.number(),
 	});
 	return schema.validate(item);
 };
