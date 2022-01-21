@@ -4,7 +4,7 @@ import Joi from 'joi';
 
 const adminChangeUserRole = asyncHandler(async (req, res) => {
 	const { id } = req.params;
-	const { role } = req.body;
+	const { role, badge } = req.body;
 	try {
 		const { error } = validate(req.body);
 		if (error)
@@ -21,6 +21,7 @@ const adminChangeUserRole = asyncHandler(async (req, res) => {
 		}
 
 		item.role = role;
+		item.badge = badge;
 
 		const doc = await item.save();
 
