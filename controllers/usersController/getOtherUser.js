@@ -9,7 +9,7 @@ const getOtherUser = asyncHandler(async (req, res) => {
 
 	try {
 		const user = await User.findOne({ username: id }).select(
-			'_id name username description followers followings image'
+			'_id name username description followers followings image badge'
 		);
 
 		if (!user)
