@@ -18,7 +18,7 @@ const router = express.Router();
 
 router.get('/', getAllBooks);
 router.post('/', protect, addNewBook);
-router.get('/:id', protect, getBookById);
+router.get('/:id', getBookById);
 router.put('/publish', protect, publishBook);
 router.put('/', protect, editBook);
 
