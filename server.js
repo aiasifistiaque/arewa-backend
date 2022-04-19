@@ -114,7 +114,7 @@ app.use(cors({credentials: true,optionsSuccessStatus: 200, origin: '*'}));
 // 	);
 // 	next();
 // });
-//now  run and show error
+// Hello
 //routes
 app.use('/api/auth', authRoute);
 app.use('/api/books', bookRoute);
