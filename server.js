@@ -105,14 +105,14 @@ app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocs));
 
 app.use(cors());
  
-app.use(function (req, res, next) {
- 	res.Header('Access-Control-Allow-Origin', '*');
- 	res.Header(
- 		'Access-Control-Allow-Headers',
- 		'Origin, X-Requested-With, Content-Type, Accept'
- 	);
- 	next();
- });
+// app.use(function (req, res, next) {
+//  	res.Header('Access-Control-Allow-Origin', '*');
+//  	res.Header(
+//  		'Access-Control-Allow-Headers',
+//  		'Origin, X-Requested-With, Content-Type, Accept'
+//  	);
+//  	next();
+//  });
 
 //routes
 app.use('/api/auth', authRoute);
