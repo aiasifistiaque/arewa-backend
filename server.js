@@ -104,7 +104,6 @@ const swaggerDocs = swaggerJsDoc(swaggerOptions);
 app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocs));
 
 app.use(cors());
-app.use(cors({credentials: true,optionsSuccessStatus: 200, origin: '*'}));
 // app.use(function (req, res, next) {
 // 	res.setHeader('Access-Control-Allow-Origin', '*');
 // 	res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
@@ -114,7 +113,7 @@ app.use(cors({credentials: true,optionsSuccessStatus: 200, origin: '*'}));
 // 	);
 // 	next();
 // });
-// Hello
+
 //routes
 app.use('/api/auth', authRoute);
 app.use('/api/books', bookRoute);
